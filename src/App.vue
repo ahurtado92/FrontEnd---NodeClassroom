@@ -2,6 +2,7 @@
   <v-app>
     
     <TopNavbar />
+    <!--<RightNavbar />-->
 
     <v-main>
       <!--<HelloWorld/>-->
@@ -13,12 +14,14 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import TopNavbar from '@/components/Top-Navbar.vue'
+import RightNavbar from '@/components/Right-Navbar.vue'
 //import HelloWorld from './components/HelloWorld';
 
 export default {
   name: 'App',
   components: {
-    TopNavbar
+    TopNavbar,
+    RightNavbar
   },
   methods: {
     ...mapActions(['cerrarSesion', 'leerToken'])
