@@ -15,15 +15,16 @@
       <v-app-bar app>
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-        <v-toolbar-title>Application</v-toolbar-title>
+        <v-toolbar-title>NodeClassroom</v-toolbar-title>
       </v-app-bar>
 
       <v-main>
         <!--<HelloWorld/>-->
         <v-card
           elevation="10"
-          max-width="100%"
-          class="mx-auto"
+          max-width="70%"
+
+          class="mt-4 mx-auto"
         >
           <router-view></router-view>
         </v-card>

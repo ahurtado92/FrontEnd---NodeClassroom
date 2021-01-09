@@ -9,8 +9,9 @@
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title>{{this.uname}}</v-list-item-title>
-            <v-list-item-subtitle>Logged In</v-list-item-subtitle>
+            <v-list-item-title>{{this.unm}}</v-list-item-title>
+            <v-list-item-subtitle v-if="estaActivo">Logged In</v-list-item-subtitle>
+            <v-list-item-subtitle v-else>Log In First!</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
 
@@ -89,6 +90,34 @@
 
         </v-list-group>
 
+        <v-list-item
+          text
+          @click="cerrarSesion()"
+          v-if="estaActivo"
+        >
+          <v-list-item-icon>
+              <v-icon>lock</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>Logout</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item
+          text
+          :to="'/login'"
+          v-else
+        >
+          <v-list-item-icon>
+              <v-icon>lock_open</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>Login</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+
       </v-list>
 
 
@@ -115,11 +144,24 @@ import { mapActions, mapGetters } from 'vuex';
           { title: 'Grupos', icon: 'group', path: 'groups'  },
         ],
         uname: null,
+        unm: null,
       }
     },
     methods: {
         ...mapActions(['cerrarSesion', 'leerToken']),
         ...mapGetters(['getUsername']),
+        setUname:  function () {
+          this.uname = this.getUsername();
+        },
+        setUnm:  function () {
+          this.unm = this.uname;
+        },
+    },
+    watch: {
+      // cada vez que la pregunta cambie, esta función será ejecutada
+      uname: function () {
+        this.setUnm();
+      }
     },
     computed: {
         ...mapGetters(['estaActivo','isAdmin']),
@@ -147,8 +189,9 @@ import { mapActions, mapGetters } from 'vuex';
     },
     created(){
         this.leerToken();
-        this.uname = this.getUsername();
-        this.createdMenuItems = this.menuItems;
+        //this.uname = this.getUsername();
+        this.setUname();
+        this.createdMenuItems = this.items;
     }
   }
 </script>

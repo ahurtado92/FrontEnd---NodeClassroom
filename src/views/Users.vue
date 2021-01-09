@@ -9,11 +9,24 @@
         >
             <h3 class="text-center">Agregar nuevo Usuario</h3>
 
+            <!--
             <v-text-field
                 v-model="user.role"
                 label="Role"
                 required
             ></v-text-field>
+            -->
+
+            <v-container id="dropdown-example-3">
+                <v-overflow-btn
+                    v-model="user.role"
+                    class="my-2"
+                    :items="dropdown_edit"
+                    label="Role"
+                    item-value="text"
+                    required
+                ></v-overflow-btn>
+            </v-container>
 
             <v-text-field
                 v-model="user.nombre"
@@ -38,6 +51,8 @@
                 label="Fecha de nacimiento"
                 required
             ></v-text-field>
+
+            <DatePicker />
 
             <v-text-field
                 v-model="user.email"
@@ -76,11 +91,16 @@
         >
             <h3 class="text-center">Modify user</h3>
 
-            <v-text-field
-                v-model="userToEdit.role"
-                label="Role"
-                required
-            ></v-text-field>
+            <v-container id="dropdown-example-3">
+                <v-overflow-btn
+                    v-model="userToEdit.role"
+                    class="my-2"
+                    :items="dropdown_edit"
+                    label="Role"
+                    item-value="text"
+                    required
+                ></v-overflow-btn>
+            </v-container>
 
             <v-text-field
                 v-model="userToEdit.nombre"
@@ -193,6 +213,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import DatePicker from '@/components/DatePicker.vue';
 export default {
     data() {
         return {
@@ -200,7 +221,14 @@ export default {
             user: {},
             add: true,
             userToEdit: {},
+            dropdown_edit: [
+                { text: 'ADMIN' },
+                { text: 'USER' },
+            ],
         };
+    },
+    components: {
+      DatePicker,
     },
     created(){
         this.listUsers();
