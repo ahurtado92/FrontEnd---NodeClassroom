@@ -9,6 +9,10 @@ import VueAxios from 'vue-axios';
 
 Vue.use(VueAxios, axios)
 
+import VueSidebarMenu from 'vue-sidebar-menu'
+import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
+Vue.use(VueSidebarMenu)
+
 //Vue.use(vuetify)
 
 //Agregamos la URL base de nuestra API

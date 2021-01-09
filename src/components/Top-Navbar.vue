@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid>
+    
         
         <v-app-bar app>
 
@@ -271,7 +271,7 @@
                 </v-btn>
             </v-toolbar-items>
         </v-app-bar>
-  </v-container>
+  
 </template>
 
 <script>

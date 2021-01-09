@@ -1,12 +1,11 @@
-<template>
-  
-    <v-navigation-drawer
-      left
-    >
-      <template v-slot:prepend>
-        <v-list-item two-line>
+<template v-slot:prepend>
+
+      <v-list dense>
+
+        <v-list-item>
           <v-list-item-avatar>
-            <img src="https://randomuser.me/api/portraits/women/81.jpg">
+            <!--<img src="https://randomuser.me/api/portraits/women/81.jpg">-->
+            <v-icon>account_box</v-icon>
           </v-list-item-avatar>
 
           <v-list-item-content>
@@ -14,26 +13,85 @@
             <v-list-item-subtitle>Logged In</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-      </template>
 
-      <v-divider></v-divider>
+        <v-divider></v-divider>
 
-      <v-list dense>
         <v-list-item
           v-for="item in items"
           :key="item.title"
+          :to=item.path
         >
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
+          
+            <v-list-item-icon>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
 
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+
         </v-list-item>
+
+        <v-list-group style="margin-left: -16px" no-action>
+
+          <template v-slot:activator>
+            <v-list-item>
+              <v-list-item-icon><v-icon>account_box</v-icon></v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title class="primary--text">
+                  <p>Titles</p>
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+
+          <v-list-item >
+            <v-list-item-icon><v-icon>account_box</v-icon></v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title class="primary--text">
+                <p>Subtitle</p>
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
+        </v-list-group>
+
+        <v-list-group style="margin-left: -16px" no-action>
+
+          <template v-slot:activator>
+            <v-list-item>
+              <v-list-item-icon><v-icon>account_box</v-icon></v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title class="primary--text">
+                  <p>Titles</p>
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+
+          <v-list-item >
+            <v-list-item-icon><v-icon>account_box</v-icon></v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title class="primary--text">
+                <p>Subtitle</p>
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
+          <v-list-item >
+            <v-list-item-icon><v-icon>account_box</v-icon></v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title class="primary--text">
+                <p>Subtitle2</p>
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
+        </v-list-group>
+
       </v-list>
-    </v-navigation-drawer>
-  
+
+
 </template>
 
 <script>
@@ -42,11 +100,19 @@ import { mapActions, mapGetters } from 'vuex';
     name: 'RightNavbar',
     data () {
       return {
+        drawer: null,
         appTitle: 'Awesome App',
         items: [
-          { title: 'Home', icon: 'mdi-home-city' },
-          { title: 'My Account', icon: 'mdi-account' },
-          { title: 'Users', icon: 'mdi-account-group-outline' },
+          { title: 'Home', icon: 'home', path: '/' },
+          { title: 'Notas', icon: 'note', path: 'notas'  },
+          { title: 'Users', icon: 'mdi-account-group-outline', path: 'users'  },
+          { title: 'Calendario', icon: 'calendar_today', path: 'calendar'  },
+          { title: 'Instancias', icon: 'pan_tool', path: 'instances'  },
+          { title: 'Material', icon: 'weekend', path: 'materials'  },
+          { title: 'Reservas', icon: 'bookmarks', path: 'bookings'  },
+          { title: 'Espacios', icon: 'room', path: 'rooms'  },
+          { title: 'Eventos', icon: 'local_activity', path: 'events'  },
+          { title: 'Grupos', icon: 'group', path: 'groups'  },
         ],
       }
     },
