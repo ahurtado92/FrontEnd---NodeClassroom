@@ -1,5 +1,5 @@
 <template v-slot:prepend>
-
+      
       <v-list dense>
 
         <v-list-item>
@@ -9,7 +9,7 @@
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title>Jane Smith</v-list-item-title>
+            <v-list-item-title>{{this.uname}}</v-list-item-title>
             <v-list-item-subtitle>Logged In</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -114,7 +114,41 @@ import { mapActions, mapGetters } from 'vuex';
           { title: 'Eventos', icon: 'local_activity', path: 'events'  },
           { title: 'Grupos', icon: 'group', path: 'groups'  },
         ],
+        uname: null,
       }
     },
+    methods: {
+        ...mapActions(['cerrarSesion', 'leerToken']),
+        ...mapGetters(['getUsername']),
+    },
+    computed: {
+        ...mapGetters(['estaActivo','isAdmin']),
+        noConditionItems: function() {
+            return this.createdMenuItems.filter(function(i) {
+                return i.conditions===""
+            })
+        },
+        activeItems: function() {
+            return this.createdMenuItems.filter(function(i) {
+                return i.conditions==="estaActivo"
+            })
+        },
+        notActiveItems: function() {
+            return this.createdMenuItems.filter(function(i) {
+                return i.conditions==="!estaActivo"
+            }) 
+        },
+        adminItems: function() {
+            return this.createdMenuItems.filter(function(i) {
+                return i.conditions==="estaActivo && isAdmin"
+            }) 
+        },
+
+    },
+    created(){
+        this.leerToken();
+        this.uname = this.getUsername();
+        this.createdMenuItems = this.menuItems;
+    }
   }
 </script>

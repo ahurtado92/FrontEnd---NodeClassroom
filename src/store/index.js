@@ -41,12 +41,14 @@ export default new Vuex.Store({
       } else {
         commit('obtenerUsuario', '');
       }
-    }
+    },
   },
   modules: {
   },
   getters: {
     estaActivo: state => !!state.token,
     isAdmin: state => state.usuarioDB.data.role === 'ADMIN',
+    getUsername: state => {return state.usuarioDB.data.nombre+" "+state.usuarioDB.data.apellidos}
+      
   }
 })
