@@ -46,13 +46,13 @@
                 required
             ></v-text-field>
 
-            <v-text-field
+            <!--<v-text-field
                 v-model="user.birth"
                 label="Fecha de nacimiento"
                 required
-            ></v-text-field>
+            ></v-text-field>-->
 
-            <DatePicker />
+            <DatePicker label="Initial date" v-on:date="updateBirthDate($event)" />
 
             <v-text-field
                 v-model="user.email"
@@ -120,11 +120,13 @@
                 required
             ></v-text-field>
 
-            <v-text-field
+            <!--<v-text-field
                 v-model="userToEdit.birth"
                 label="Fecha de nacimiento"
                 required
-            ></v-text-field>
+            ></v-text-field>-->
+            <DatePicker label="Initial date" v-on:date="updateEditBirthDate($event)" />
+            
 
             <v-text-field
                 v-model="userToEdit.email"
@@ -299,6 +301,14 @@ export default {
             })
             this.add = true;
         },
+        updateBirthDate(d){
+            //console.log("updatingBirthDate " + d);
+            this.user.birth = d;
+        },
+        updateEditBirthDate(d){
+            //console.log("updatingBirthDate " + d);
+            this.userToEdit.birth = d;
+        }
     }
 };
 </script>

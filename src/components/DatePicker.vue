@@ -10,8 +10,8 @@
     <template v-slot:activator="{ on, attrs }">
       <v-text-field
         v-model="date"
-        label="Select Date"
         prepend-icon="mdi-calendar"
+        :label="label"
         readonly
         v-bind="attrs"
         v-on="on"
@@ -24,12 +24,24 @@
       min="1950-01-01"
       @change="save"
     ></v-date-picker>
+    <v-alert
+      border="top"
+      color="red lighten-2"
+      dark
+    >
+      {{date}}
+    </v-alert>
   </v-menu>
 </template>
 
 <script>
   export default {
     name: 'DatePicker',
+    props: ['label'],
+    model: {
+        prop: 'date',
+        event: 'listchange'
+    },
     data: () => ({
       date: null,
       menu: false,
@@ -42,6 +54,8 @@
     methods: {
       save (date) {
         this.$refs.menu.save(date)
+        console.log("saving");
+        this.$emit('date', this.date)
       },
     },
   }
