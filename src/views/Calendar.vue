@@ -150,8 +150,12 @@
       events: [],
       evtList: [],
     }),
+    created () {
+        this.updateRange();
+        this.timer = setInterval(this.updateRange, 100)
+    },
     mounted () {
-      this.$refs.calendar.checkChange();
+      //this.$refs.calendar.checkChange();
     },
     computed: {
         ...mapState(['token'])
@@ -192,7 +196,7 @@
         nativeEvent.stopPropagation()
       },
       
-      updateRange ({ start, end }) {
+      updateRange () {
         const events = []
         /*events.push({
           name: "Event 1",
@@ -207,6 +211,8 @@
               token: this.token
           }
         }
+        let start = null;
+        let end = null;
         this.axios.get('bookings', config)
         .then((response) => {
             this.evtList = response.data;
@@ -232,6 +238,10 @@
       rnd (a, b) {
         return Math.floor((b - a + 1) * Math.random()) + a
       },
+
+      beforeDestroy () {
+        clearInterval(this.timer)
+      }
     },
   }
 </script>
