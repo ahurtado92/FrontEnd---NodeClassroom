@@ -152,7 +152,7 @@
     }),
     created () {
         this.updateRange();
-        this.timer = setInterval(this.updateRange, 1000)
+        this.timer = setInterval(this.updateRange, 500)
     },
     mounted () {
       //this.$refs.calendar.checkChange();
