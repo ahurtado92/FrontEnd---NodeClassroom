@@ -24,13 +24,6 @@
       min="1950-01-01"
       @change="save"
     ></v-date-picker>
-    <v-alert
-      border="top"
-      color="red lighten-2"
-      dark
-    >
-      {{date}}
-    </v-alert>
   </v-menu>
 </template>
 

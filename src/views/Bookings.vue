@@ -27,11 +27,14 @@
                 required
             ></v-text-field>
 
-            <v-text-field
+            <!--<v-text-field
                 v-model="booking.initDate"
                 label="Inicio"
                 required
-            ></v-text-field>
+            ></v-text-field>-->
+
+            <DatePicker label="Init date" v-on:date="updateInitDate($event, booking)" />
+            <TimePicker label="Init time" />
 
             <v-text-field
                 v-model="booking.endDate"
@@ -82,11 +85,14 @@
                 required
             ></v-text-field>
 
-            <v-text-field
+            <!--<v-text-field
                 v-model="bookingToModify.initDate"
                 label="Inicio"
                 required
-            ></v-text-field>
+            ></v-text-field>-->
+
+            <DatePicker label="Init date" v-on:date="updateInitDate($event, bookingToModify)" />
+            <TimePicker label="Init time" />
 
             <v-text-field
                 v-model="bookingToModify.endDate"
@@ -163,6 +169,8 @@
 
 <script>
 import { mapState } from 'vuex';
+import DatePicker from '@/components/DatePicker.vue';
+import TimePicker from '@/components/TimePicker.vue';
 export default {
     data() {
         return {
@@ -171,6 +179,10 @@ export default {
             add: true,
             bookingToModify: {},
         };
+    },
+    components: {
+      DatePicker,
+      TimePicker,
     },
     created(){
         this.listBookings();
@@ -240,6 +252,9 @@ export default {
             })
             this.add = true;
         },
+        updateInitDate(v,d){
+            d.initDate=v;
+        }
     }
 };
 </script>
