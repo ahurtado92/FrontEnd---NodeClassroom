@@ -220,8 +220,8 @@
           events.push({
             name: evt.name,
             start: new Date(evt.initDate),
-            //end: new Date(evt.endDate),
-            end: new Date(2021,0,5,4,30,0),
+            end: new Date(evt.endDate),
+            //end: new Date(2021,0,5,4,30,0),
             color: evt.color,
             timed: true,
           })

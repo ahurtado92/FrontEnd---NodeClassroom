@@ -33,20 +33,25 @@
                 required
             ></v-text-field>-->
 
-            <DatePicker label="Init date" v-on:date="updateInitDate($event, booking)" />
-            <TimePicker label="Init time" />
+            <!--<DatePicker label="Init date" v-on:date="updateInitDate($event, booking)" />-->
+            <!--<TimePicker label="Init time" />-->
 
-            <v-text-field
-                v-model="booking.endDate"
-                label="Fin"
-                required
-            ></v-text-field>
+            <v-datetime-picker
+                label="Inicio"
+                v-model="booking.initDate">
+            </v-datetime-picker>
 
-            <v-text-field
+            <v-datetime-picker
+                label="Final"
+                v-model="booking.endDate">
+            </v-datetime-picker>
+
+            <!--<v-text-field
                 v-model="booking.color"
                 label="Color"
                 required
-            ></v-text-field>
+            ></v-text-field>-->
+            <ColorPicker v-on:color="updateColor($event, booking)" />
 
             <v-btn
                 block
@@ -85,26 +90,22 @@
                 required
             ></v-text-field>
 
-            <!--<v-text-field
-                v-model="bookingToModify.initDate"
+            <v-datetime-picker
                 label="Inicio"
-                required
-            ></v-text-field>-->
+                v-model="bookingToModify.initDate">
+            </v-datetime-picker>
 
-            <DatePicker label="Init date" v-on:date="updateInitDate($event, bookingToModify)" />
-            <TimePicker label="Init time" />
+            <v-datetime-picker
+                label="Final"
+                v-model="bookingToModify.endDate">
+            </v-datetime-picker>
 
-            <v-text-field
-                v-model="bookingToModify.endDate"
-                label="Fin"
-                required
-            ></v-text-field>
-
-            <v-text-field
+            <!--<v-text-field
                 v-model="bookingToModify.color"
                 label="Color"
                 required
-            ></v-text-field>
+            ></v-text-field>-->
+            <ColorPicker v-on:color="updateColor($event, bookingToModify)" />
 
             <v-btn
                 class="mr-4"
@@ -171,6 +172,7 @@
 import { mapState } from 'vuex';
 import DatePicker from '@/components/DatePicker.vue';
 import TimePicker from '@/components/TimePicker.vue';
+import ColorPicker from '@/components/ColorPicker.vue';
 export default {
     data() {
         return {
@@ -183,6 +185,7 @@ export default {
     components: {
       DatePicker,
       TimePicker,
+      ColorPicker,
     },
     created(){
         this.listBookings();
@@ -254,7 +257,13 @@ export default {
         },
         updateInitDate(v,d){
             d.initDate=v;
-        }
+        },
+        updateEndDate(v,d){
+            d.endDate=v;
+        },
+        updateColor(v,c){
+            c.color=v.hex;
+        },
     }
 };
 </script>

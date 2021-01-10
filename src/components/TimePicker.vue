@@ -30,13 +30,13 @@
 </template>
 <script>
 export default {
-    name: 'TimePicker',
-    props: ['label'],
-    data () {
-      return {
-        time: null,
-        menu2: false,
-      }
-    },
+  name: 'TimePicker',
+  props: ['label'],
+  data () {
+    return {
+      time: null,
+      menu2: false,
+    }
+  }
 }
 </script>
