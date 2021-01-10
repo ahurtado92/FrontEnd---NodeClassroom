@@ -22,7 +22,7 @@
         <!--<HelloWorld/>-->
         <v-card
           elevation="10"
-          max-width="70%"
+          max-width="100%"
 
           class="mt-4 mx-auto"
         >
