@@ -21,17 +21,14 @@
                 required
             ></v-text-field>
 
-            <v-text-field
+            <v-overflow-btn
                 v-model="booking.roomId"
-                label="Room"
+                class="my-2"
+                :items="rooms"
+                label="Espacio"
+                item-value="value"
                 required
-            ></v-text-field>
-
-            <!--<v-text-field
-                v-model="booking.initDate"
-                label="Inicio"
-                required
-            ></v-text-field>-->
+            ></v-overflow-btn>
 
             <!--<DatePicker label="Init date" v-on:date="updateInitDate($event, booking)" />-->
             <!--<TimePicker label="Init time" />-->
@@ -46,11 +43,6 @@
                 v-model="booking.endDate">
             </v-datetime-picker>
 
-            <!--<v-text-field
-                v-model="booking.color"
-                label="Color"
-                required
-            ></v-text-field>-->
             <ColorPicker v-on:color="updateColor($event, booking)" />
 
             <v-btn
@@ -84,27 +76,26 @@
                 required
             ></v-text-field>
 
-            <v-text-field
+            <v-overflow-btn
                 v-model="bookingToModify.roomId"
-                label="Room"
+                class="my-2"
+                :items="rooms"
+                label="Espacio"
+                item-value="value"
                 required
-            ></v-text-field>
+            ></v-overflow-btn>
 
             <v-datetime-picker
-                label="Inicio"
+                v-bind:label="new Date(bookingToModify.initDate).toLocaleString()"
                 v-model="bookingToModify.initDate">
             </v-datetime-picker>
 
             <v-datetime-picker
-                label="Final"
+                v-bind:label="new Date(bookingToModify.endDate).toLocaleString()"
                 v-model="bookingToModify.endDate">
             </v-datetime-picker>
 
-            <!--<v-text-field
-                v-model="bookingToModify.color"
-                label="Color"
-                required
-            ></v-text-field>-->
+            <!--<ColorPicker v-on:color="updateColor($event, bookingToModify)" />-->
             <ColorPicker v-on:color="updateColor($event, bookingToModify)" />
 
             <v-btn
@@ -145,7 +136,15 @@
                     <td>{{item.roomId}}</td>
                     <td>{{item.initDate}}</td>
                     <td>{{item.endDate}}</td>
-                    <td>{{item.color}}</td>
+                    <td>
+                        <v-sheet
+                            v-bind:color="item.color"
+                            elevation="1"
+                            height="30"
+                            width="30"
+                            rounded
+                        ></v-sheet>
+                    </td>
                     <td>{{item.date}}</td>
                     
                     <td>
@@ -178,6 +177,7 @@ export default {
         return {
             bookings: [],
             booking: {},
+            rooms: [],
             add: true,
             bookingToModify: {},
         };
@@ -189,12 +189,15 @@ export default {
     },
     created(){
         this.listBookings();
+        this.listRooms();
     },
     computed: {
         ...mapState(['token'])
     },
     methods:{
         listBookings(){
+            var r = []
+            var room = null
             let config = {
                 headers: {
                     token: this.token
@@ -202,7 +205,49 @@ export default {
             }
             this.axios.get('bookings', config)
             .then((response) => {
-                this.bookings = response.data;
+                response.data.forEach(evt=>{
+                    r.push({
+                        accessGroups: evt.accessGroups,
+                        accessUsers: evt.accessUsers,
+                        color: evt.color,
+                        date: new Date(evt.date).toLocaleString(),
+                        description: evt.description,
+                        endDate: new Date(evt.endDate).toLocaleString(),
+                        initDate: new Date(evt.initDate).toLocaleString(),
+                        material: evt.material,
+                        modGroups: evt.modGroups,
+                        modUsers: evt.modUsers,
+                        name: evt.name,
+                        roomId: this.rooms.find( rm => rm.value == evt.roomId ).text,
+                        __v: evt.__v,
+                        _id: evt._id,
+                    })
+                });
+                this.bookings = r;
+            })
+            .catch((e)=>{
+                console.log('error' + e);
+            })
+            
+        },
+
+        listRooms(){
+            let roomL = []
+
+            let config = {
+                headers: {
+                    token: this.token
+                }
+            }
+            this.axios.get('rooms', config)
+            .then((response) => {
+                roomL = response.data;
+                roomL.forEach(evt=>{
+                    this.rooms.push({
+                        text: evt.name,
+                        value: evt._id,
+                    })
+                });
             })
             .catch((e)=>{
                 console.log('error' + e);

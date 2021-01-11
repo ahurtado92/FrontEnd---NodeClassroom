@@ -198,13 +198,6 @@
       
       updateRange () {
         const events = []
-        /*events.push({
-          name: "Event 1",
-          start: new Date(2021,0,5,3,24,0),
-          end: new Date(2021,0,5,4,30,0),
-          color: "red",
-          timed: true,
-        })*/
 
         let config = {
           headers: {

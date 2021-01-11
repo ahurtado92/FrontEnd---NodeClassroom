@@ -158,7 +158,6 @@ import { mapActions, mapGetters } from 'vuex';
         },
     },
     watch: {
-      // cada vez que la pregunta cambie, esta función será ejecutada
       uname: function () {
         this.setUnm();
       }

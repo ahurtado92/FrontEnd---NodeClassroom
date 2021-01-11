@@ -9,6 +9,7 @@
 <script>
 export default {
     name: 'ColorPicker',
+    props: ['defaultColor'],
     data(){
         return {
             color: null,
@@ -19,5 +20,10 @@ export default {
         this.$emit('color', this.color)
       },
     },
+    created: {
+      exec() {
+        console.log(this.defaultColor)
+      }
+    }
 }
 </script>
