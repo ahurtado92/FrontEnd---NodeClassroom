@@ -142,6 +142,7 @@ import { mapActions, mapGetters } from 'vuex';
           { title: 'Espacios', icon: 'room', path: 'rooms'  },
           { title: 'Eventos', icon: 'local_activity', path: 'events'  },
           { title: 'Grupos', icon: 'group', path: 'groups'  },
+          { title: 'Franjas', icon: 'group', path: 'intervals'  },
         ],
         uname: null,
         unm: null,

@@ -79,6 +79,12 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Users.vue'),
     meta: {requireAuth: true, requireAdmin: true}
   },
+  {
+    path: '/intervals',
+    name: 'intervals',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Intervals.vue'),
+    meta: {requireAuth: true, requireAdmin: true}
+  },
 ]
 
 const router = new VueRouter({
