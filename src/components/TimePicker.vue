@@ -25,6 +25,7 @@
           v-model="time"
           full-width
           @click:minute="$refs.menu.save(time)"
+          @change="save"
         ></v-time-picker>
       </v-menu>
 </template>
@@ -32,11 +33,20 @@
 export default {
   name: 'TimePicker',
   props: ['label'],
+  model: {
+      prop: 'date',
+  },
   data () {
     return {
       time: null,
       menu2: false,
     }
-  }
+  },
+  methods: {
+      save (time) {
+        this.$refs.menu.save(time)
+        this.$emit('time', this.time)
+      },
+    },
 }
 </script>

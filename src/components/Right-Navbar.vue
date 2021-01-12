@@ -143,6 +143,7 @@ import { mapActions, mapGetters } from 'vuex';
           { title: 'Eventos', icon: 'local_activity', path: 'events'  },
           { title: 'Grupos', icon: 'group', path: 'groups'  },
           { title: 'Franjas', icon: 'group', path: 'intervals'  },
+          { title: 'Periodos', icon: 'group', path: 'periods'  },
         ],
         uname: null,
         unm: null,

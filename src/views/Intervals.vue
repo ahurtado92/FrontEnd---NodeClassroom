@@ -1,4 +1,3 @@
-//TODO: set correct fields
 <template>
     <div class="container">
         <v-form
@@ -15,15 +14,17 @@
                 required
             ></v-text-field>
 
-            <v-datetime-picker
-                v-bind:label="new Date(interval.initDate).toLocaleString()"
-                v-model="interval.initDate">
-            </v-datetime-picker>
+            <v-overflow-btn
+                v-model="interval.periodId"
+                class="my-2"
+                :items="periods"
+                label="Periodo"
+                item-value="value"
+                required
+            ></v-overflow-btn>
 
-            <v-datetime-picker
-                v-bind:label="new Date(interval.endDate).toLocaleString()"
-                v-model="interval.endDate">
-            </v-datetime-picker>
+            <TimePicker label="Init time" v-on:time="($event)=>{interval.initDate = $event}" />
+            <TimePicker label="End time" v-on:time="($event)=>{interval.endDate = $event}" />
 
             <v-btn
                 block
@@ -50,15 +51,17 @@
                 required
             ></v-text-field>
 
-            <v-datetime-picker
-                v-bind:label="new Date(intervalToEdit.initDate).toLocaleString()"
-                v-model="intervalToEdit.initDate">
-            </v-datetime-picker>
+            <v-overflow-btn
+                v-model="intervalToEdit.periodId"
+                class="my-2"
+                :items="periods"
+                label="Periodo"
+                item-value="value"
+                required
+            ></v-overflow-btn>
 
-            <v-datetime-picker
-                v-bind:label="new Date(intervalToEdit.endDate).toLocaleString()"
-                v-model="intervalToEdit.endDate">
-            </v-datetime-picker>
+            <TimePicker label="Init time" v-on:time="($event)=>{intervalToEdit.initDate = $event}" />
+            <TimePicker label="End time" v-on:time="($event)=>{intervalToEdit.endDate = $event}" />
 
             <v-btn
                 class="mr-4"
@@ -81,6 +84,7 @@
                     <tr>
                     <th scope="col">#</th>
                     <th scope="col">ExtId</th>
+                    <th scope="col">Periodo</th>
                     <th scope="col">initDate</th>
                     <th scope="col">endDate</th>
                     <th scope="col">Acciones</th>
@@ -90,6 +94,7 @@
                     <tr v-for="(item, index) in intervals" :key="index">
                     <th scope="row">{{item._id}}</th>
                     <td>{{item.extId}}</td>
+                    <td>{{item.periodId}}</td>
                     <td>{{item.initDate}}</td>
                     <td>{{item.endDate}}</td>
                     <td>
@@ -114,7 +119,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import DatePicker from '@/components/DatePicker.vue';
+import TimePicker from '@/components/TimePicker.vue';
 export default {
     data() {
         return {
@@ -122,12 +127,14 @@ export default {
             interval: {},
             add: true,
             intervalToEdit: {},
+            periods: [],
         };
     },
     components: {
-      DatePicker,
+      TimePicker,
     },
     created(){
+        this.listPeriods();
         this.listIntervals();
     },
     computed: {
@@ -135,14 +142,56 @@ export default {
     },
     methods:{
         listIntervals(){
+            var r = []
             let config = {
                 headers: {
                     token: this.token
                 }
             }
             this.axios.get('intervals', config)
-            .then((response) => {
+            /*.then((response) => {
                 this.intervals = response.data;
+            })*/
+            
+            .then((response) => {
+                response.data.forEach(evt=>{
+                    r.push({
+                        name: evt.name,
+                        date: new Date(evt.date).toLocaleString(),
+                        //endDate: new Date(evt.endDate).toLocaleString(),
+                        //initDate: new Date(evt.initDate).toLocaleString(),
+                        endDate: evt.endDate,
+                        initDate: evt.initDate,
+                        periodId: this.periods.find( pr => pr.value == evt.periodId ).text,
+                        __v: evt.__v,
+                        _id: evt._id,
+                    })
+                });
+                this.intervals = r;
+            })
+
+            .catch((e)=>{
+                console.log('error' + e);
+            })
+        },
+
+        listPeriods(){
+            let periodL = []
+
+            let config = {
+                headers: {
+                    token: this.token
+                }
+            }
+            this.axios.get('periods', config)
+            .then((response) => {
+                periodL = response.data;
+                periodL.forEach(evt=>{
+                    this.periods.push({
+                        text: evt.name,
+                        value: evt._id,
+                    })
+                });
             })
             .catch((e)=>{
                 console.log('error' + e);
@@ -157,13 +206,12 @@ export default {
             }
             this.axios.post('new-interval', this.interval, config)
             .then(res => {
-            this.listIntervals();
+                this.listIntervals();
             })
             .catch( e => {
-            
-            console.log(e.response);
+                console.log(e.response);
             })
-        this.intervals = {}
+            this.intervals = {}
         },
         deleteInterval(id){
             this.axios.delete(`interval/${id}`)
@@ -196,6 +244,9 @@ export default {
                 console.log(e);
             })
             this.add = true;
+        },
+        updateTime(v,d){
+            d=v;
         },
     }
 };
