@@ -11,7 +11,6 @@
     <template v-slot:activator="{ on, attrs }">
       <v-text-field
         v-model="color"
-        prepend-icon="mdi-color"
         :label="label"
         readonly
         v-bind="attrs"
@@ -31,6 +30,7 @@
 <script>
 export default {
     name: 'ColorPicker',
+    props: ['label'],
     data(){
         return {
             color: null,

@@ -65,9 +65,9 @@
                 <thead>
                     <tr>
                     <th scope="col">#</th>
-                    <th scope="col">ExtId</th>
-                    <th scope="col">initDate</th>
-                    <th scope="col">endDate</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Fecha inicial</th>
+                    <th scope="col">Fecha final</th>
                     <th scope="col">Acciones</th>
                     </tr>
                 </thead>
@@ -75,8 +75,8 @@
                     <tr v-for="(item, index) in periods" :key="index">
                     <th scope="row">{{item._id}}</th>
                     <td>{{item.name}}</td>
-                    <td>{{item.initDate}}</td>
-                    <td>{{item.endDate}}</td>
+                    <td>{{new Date(item.initDate).toDateString()}}</td>
+                    <td>{{new Date(item.endDate).toDateString()}}</td>
                     <td>
                         <v-btn
                             color="primary"

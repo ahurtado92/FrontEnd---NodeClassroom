@@ -156,7 +156,7 @@ export default {
             .then((response) => {
                 response.data.forEach(evt=>{
                     r.push({
-                        name: evt.name,
+                        extId: evt.extId,
                         date: new Date(evt.date).toLocaleString(),
                         //endDate: new Date(evt.endDate).toLocaleString(),
                         //initDate: new Date(evt.initDate).toLocaleString(),

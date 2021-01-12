@@ -43,7 +43,7 @@
                 v-model="booking.endDate">
             </v-datetime-picker>
 
-            <ColorPicker v-on:color="updateColor($event, booking)" />
+            <ColorPicker label="Color" v-on:color="updateColor($event, booking)" />
 
             <v-btn
                 block
@@ -96,7 +96,7 @@
             </v-datetime-picker>
 
             <!--<ColorPicker v-on:color="updateColor($event, bookingToModify)" />-->
-            <ColorPicker v-on:color="updateColor($event, bookingToModify)" />
+            <ColorPicker label="Color" v-on:color="updateColor($event, bookingToModify)" />
 
             <v-btn
                 class="mr-4"
