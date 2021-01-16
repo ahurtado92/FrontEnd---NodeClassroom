@@ -91,6 +91,12 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Periods.vue'),
     meta: {requireAuth: true, requireAdmin: true}
   },
+  {
+    path: '/csvform',
+    name: 'CSVForm',
+    component: () => import(/* webpackChunkName: "about" */ '../views/CSVForm.vue'),
+    meta: {requireAuth: true, requireAdmin: true}
+  },
 ]
 
 const router = new VueRouter({

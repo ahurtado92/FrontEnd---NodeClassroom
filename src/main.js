@@ -14,7 +14,6 @@ import DatetimePicker from 'vuetify-datetime-picker'
 
 Vue.use(DatetimePicker)
 
-
 //Vue.use(vuetify)
 
 //Agregamos la URL base de nuestra API
