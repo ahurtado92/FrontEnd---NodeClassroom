@@ -4,7 +4,7 @@
         id: 'id', 
         group: 'group', 
         teacher: 'teacher', 
-        assignature: 'assignature', 
+        subject: 'subject', 
         classroom: 'classroom', 
         weekday: 'weekday', 
         interval: 'interval'
@@ -14,7 +14,7 @@
     <vue-csv-import
         v-model="parseCsv"
         url=""
-        :map-fields="['id', 'group', 'teacher', 'assignature', 'classroom', 'weekday', 'interval']"
+        :map-fields="['id', 'group', 'teacher', 'subject', 'classroom', 'weekday', 'interval']"
     >
 
         <template slot="hasHeaders" slot-scope="{headers, toggle}">
@@ -38,7 +38,12 @@
         <vue-csv-map :auto-match="true"></vue-csv-map>
 
         <template slot="next" slot-scope="{load}">
-            <button @click.prevent="load">load!</button>
+            <!--<button @click.prevent="load">load!</button>-->
+            <v-btn
+                color="blue"
+                class="mx-2"
+                @click.stop="load"
+            >Load file</v-btn>
         </template>
 
         <vue-csv-submit v-slot="{submit}">
@@ -47,10 +52,10 @@
 
     </vue-csv-import>
     <v-btn
-            color="error"
+            color="green"
             class="mx-2"
             @click.stop="submit()"
-        >Add</v-btn>
+        >Send</v-btn>
     </div>
 </template>
 
@@ -62,6 +67,14 @@ export default {
     data() {
         return {
             parseCsv: null,
+            modCSV: null,
+            elementCSV: null,
+            rooms: [],
+            periods: [],
+            intervals: [],
+            users: [],
+            groups: [],
+            subjects: [],
         };
     },
     components: {
@@ -70,6 +83,14 @@ export default {
     computed: {
         ...mapState(['token'])
     },
+    created () {
+        this.getRooms();
+        this.getIntervals();
+        this.getPeriods();
+        this.getUsers();
+        this.getGroups();
+        this.getSubjects();
+    },
     methods: {
         submit(){
             let config = {
@@ -77,7 +98,11 @@ export default {
                     token: this.token
                 }
             }
-            this.axios.post('csv-load', this.parseCsv, config)
+            
+            //console.log(this.rooms[0]._id);
+            this.modCSV = this.modifyBeforeSubmit();
+            console.log(this.modCSV);
+            /*this.axios.post('csv-load', this.modCSV, config)
             .then(res => {
                 //this.listIntervals();
                 console.log('OK!!!')
@@ -85,8 +110,126 @@ export default {
             .catch( e => {
                 console.log(e.response);
             })
-            this.parseCsv = null
+            this.parseCsv = null*/
         },
+
+        modifyBeforeSubmit(){
+            var r = [];
+            this.parseCsv.forEach(element => {
+                //var room = this.rooms.find( (item) => item.name == element.classroom )
+                r.push({
+                    id: element.id,
+                    //group: element.group,
+                    group: this.groups.find( (item) => item.name == element.group )._id,
+                    //teacher: element.teacher,
+                    teacher: this.users.find( (item) => item.uname == element.teacher )._id,
+                    //subject: element.subject,
+                    subject: this.subjects.find( (item) => item.name == element.subject )._id,
+                    //classroom: element.classroom,
+                    classroom: this.rooms.find( (item) => item.name == element.classroom )._id,
+                    weekday: element.weekday,
+                    //interval: element.interval
+                    interval: this.intervals.find( (item) => item.extId == element.interval )._id
+                })
+            });
+            return r;
+        },
+
+        getRooms(){
+            let config = {
+                headers: {
+                    token: this.token
+                }
+            }
+            this.axios.get('rooms', config)
+            .then((response) => {
+                this.rooms = response.data;
+                //console.log(this.rooms);
+            })
+            .catch((e)=>{
+                console.log('error' + e);
+            })
+        },
+
+        getIntervals(){
+            let config = {
+                headers: {
+                    token: this.token
+                }
+            }
+            this.axios.get('intervals', config)
+            .then((response) => {
+                this.intervals = response.data;
+                //console.log(this.intervals);
+            })
+            .catch((e)=>{
+                console.log('error' + e);
+            })
+        },
+
+        getPeriods(){
+            let config = {
+                headers: {
+                    token: this.token
+                }
+            }
+            this.axios.get('periods', config)
+            .then((response) => {
+                this.periods = response.data;
+                //console.log(this.periods);
+            })
+            .catch((e)=>{
+                console.log('error' + e);
+            })
+        },
+
+        getUsers(){
+            let config = {
+                headers: {
+                    token: this.token
+                }
+            }
+            this.axios.get('usuarios', config)
+            .then((response) => {
+                this.users = response.data;
+                //console.log(this.users);
+            })
+            .catch((e)=>{
+                console.log('error' + e);
+            })
+        },
+
+        getGroups() {
+            let config = {
+                headers: {
+                    token: this.token
+                }
+            }
+            this.axios.get('groups', config)
+            .then((response) => {
+                this.groups = response.data;
+                //console.log(this.groups);
+            })
+            .catch((e)=>{
+                console.log('error' + e);
+            })
+        },
+
+        getSubjects() {
+            let config = {
+                headers: {
+                    token: this.token
+                }
+            }
+            this.axios.get('subjects', config)
+            .then((response) => {
+                this.subjects = response.data;
+                //console.log(this.subjects);
+            })
+            .catch((e)=>{
+                console.log('error' + e);
+            })
+        }
     }
 }
 </script>

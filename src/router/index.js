@@ -92,6 +92,12 @@ const routes = [
     meta: {requireAuth: true, requireAdmin: true}
   },
   {
+    path: '/subjects',
+    name: 'subjects',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Subjects.vue'),
+    meta: {requireAuth: true, requireAdmin: true}
+  },
+  {
     path: '/csvform',
     name: 'CSVForm',
     component: () => import(/* webpackChunkName: "about" */ '../views/CSVForm.vue'),
