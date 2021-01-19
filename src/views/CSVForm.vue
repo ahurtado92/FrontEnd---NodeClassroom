@@ -62,6 +62,7 @@
 <script>
 import { VueCsvImport } from 'vue-csv-import';
 import { mapState } from 'vuex';
+import moment from 'moment'
 export default {
     name: 'CSVForm',
     data() {
@@ -71,6 +72,7 @@ export default {
             elementCSV: null,
             rooms: [],
             periods: [],
+            thisPeriod: null,
             intervals: [],
             users: [],
             groups: [],
@@ -102,6 +104,7 @@ export default {
             //console.log(this.rooms[0]._id);
             this.modCSV = this.modifyBeforeSubmit();
             console.log(this.modCSV);
+
             /*this.axios.post('csv-load', this.modCSV, config)
             .then(res => {
                 //this.listIntervals();
@@ -117,6 +120,10 @@ export default {
             var r = [];
             this.parseCsv.forEach(element => {
                 //var room = this.rooms.find( (item) => item.name == element.classroom )
+                var i = this.intervals.find( (item) => item.extId == element.interval )
+                var p = this.thisPeriod = this.periods.find((item) => item._id == i.periodId )
+                var intWeeks = moment(p.endDate).diff(moment(p.initDate), 'weeks') //Interval of weeks in period of that element
+
                 r.push({
                     id: element.id,
                     //group: element.group,
@@ -129,7 +136,9 @@ export default {
                     classroom: this.rooms.find( (item) => item.name == element.classroom )._id,
                     weekday: element.weekday,
                     //interval: element.interval
-                    interval: this.intervals.find( (item) => item.extId == element.interval )._id
+                    //interval: this.intervals.find( (item) => item.extId == element.interval )._id
+                    interval: i._id,
+                    period: p,
                 })
             });
             return r;
@@ -176,7 +185,6 @@ export default {
             this.axios.get('periods', config)
             .then((response) => {
                 this.periods = response.data;
-                //console.log(this.periods);
             })
             .catch((e)=>{
                 console.log('error' + e);

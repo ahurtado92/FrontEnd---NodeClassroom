@@ -9,6 +9,9 @@ import VueAxios from 'vue-axios';
 
 Vue.use(VueAxios, axios)
 
+Vue.use(require('moment'));
+Vue.use(require('vue-moment'));
+
 import DatetimePicker from 'vuetify-datetime-picker'
 //import 'vuetify-datetime-picker/src/stylus/main.styl'
 
