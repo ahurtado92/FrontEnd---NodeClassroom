@@ -20,6 +20,8 @@
                 required
             ></v-text-field>
 
+            <ColorPicker label="Color" v-on:color="updateColor($event, subject)" />
+
             <v-btn
                 block
                 class="mr-4"
@@ -49,6 +51,8 @@
                 label="Descripción"
                 required
             ></v-text-field>
+
+            <ColorPicker label="Color" v-on:color="updateColor($event, subjectEditar)" />
 
             <v-btn
                 class="mr-4"
@@ -81,7 +85,16 @@
                     <th scope="row">{{item._id}}</th>
                     <td>{{item.name}}</td>
                     <td>{{item.description}}</td>
-                    <td>{{item.date}}</td>
+                    <td>
+                        <v-sheet
+                            v-bind:color="item.color"
+                            elevation="1"
+                            height="30"
+                            width="30"
+                            rounded
+                        ></v-sheet>
+                    </td>
+                    
                     <td>
                         <v-btn
                             color="primary"
@@ -104,6 +117,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import ColorPicker from '@/components/ColorPicker.vue';
 export default {
     data() {
         return {
@@ -112,6 +126,9 @@ export default {
             agregar: true,
             subjectEditar: {},
         };
+    },
+    components: {
+      ColorPicker,
     },
     created(){
         this.listarSubjects();
@@ -181,6 +198,10 @@ export default {
                 console.log(e);
             })
             this.agregar = true;
+        },
+        
+        updateColor(v,c){
+            c.color=v.hex;
         },
     }
 };

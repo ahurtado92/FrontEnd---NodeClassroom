@@ -95,16 +95,75 @@ export default {
     },
     methods: {
         submit(){
+            
+            this.modifyBeforeSubmit();
+
+        },
+
+        modifyBeforeSubmit(){
+            
+            this.parseCsv.forEach(element => {
+                var i = this.intervals.find( (item) => item.extId == element.interval )
+                var p = this.thisPeriod = this.periods.find((item) => item._id == i.periodId )
+                var intWeeks = moment(p.endDate).diff(moment(p.initDate), 'weeks') //Interval of weeks in period of that element
+
+                let id = element.id
+                let group = this.groups.find( (item) => item.name == element.group )._id
+                let teacher = this.users.find( (item) => item.uname == element.teacher )._id
+                let subject = this.subjects.find( (item) => item.name == element.subject )
+                let classroom = this.rooms.find( (item) => item.name == element.classroom )._id
+                let weekday = element.weekday
+                let interval = i._id
+                let resInitTime = i.initDate.split(":");
+                let resEndTime = i.endDate.split(":");
+                let period = p
+
+                var iDateTime = moment(p.initDate);
+                var iDoW = iDateTime.day(weekday)
+                iDoW.set('hour',resInitTime[0])
+                iDoW.set('minute',resInitTime[1])
+
+                var eDateTime = moment(p.initDate);
+                var eDoW = eDateTime.day(weekday)
+                eDoW.set('hour',resEndTime[0])
+                eDoW.set('minute',resEndTime[1])
+
+
+                for (let iter=0; iter<intWeeks; iter++){
+                    var r = [];
+
+                    r.push({
+                        extId: id,
+                        group: group,
+                        creatorId: teacher,
+                        name: subject.name,
+                        roomId: classroom,
+                        weekday: weekday,
+                        interval: interval,
+                        initDate: iDoW.format('YYYY/MM/DD HH:mm'),
+                        endDate: eDoW.format('YYYY/MM/DD HH:mm'),
+                        color: subject.color,
+                    })
+                    console.log(r);
+                    
+                    iDoW.add(1, 'week'); 
+                    eDoW.add(1, 'week'); 
+
+                    this.upload(r);
+
+                }
+            });
+        },
+
+        upload(r){
+
             let config = {
                 headers: {
                     token: this.token
                 }
             }
-            
-            this.modCSV = this.modifyBeforeSubmit();
-            console.log(this.modCSV);
 
-            /*this.axios.post('csv-load', this.modCSV, config)
+            this.axios.post('new-booking', r, config)
             .then(res => {
                 //this.listIntervals();
                 console.log('OK!!!')
@@ -112,37 +171,6 @@ export default {
             .catch( e => {
                 console.log(e.response);
             })
-            this.parseCsv = null*/
-        },
-
-        modifyBeforeSubmit(){
-            var r = [];
-            this.parseCsv.forEach(element => {
-                var i = this.intervals.find( (item) => item.extId == element.interval )
-                var p = this.thisPeriod = this.periods.find((item) => item._id == i.periodId )
-                var intWeeks = moment(p.endDate).diff(moment(p.initDate), 'weeks') //Interval of weeks in period of that element
-                for (i=0; i<intWeeks; i++){
-                    console.log("Hola: "+i);
-                }
-
-                r.push({
-                    id: element.id,
-                    //group: element.group,
-                    group: this.groups.find( (item) => item.name == element.group )._id,
-                    //teacher: element.teacher,
-                    teacher: this.users.find( (item) => item.uname == element.teacher )._id,
-                    //subject: element.subject,
-                    subject: this.subjects.find( (item) => item.name == element.subject )._id,
-                    //classroom: element.classroom,
-                    classroom: this.rooms.find( (item) => item.name == element.classroom )._id,
-                    weekday: element.weekday,
-                    //interval: element.interval
-                    //interval: this.intervals.find( (item) => item.extId == element.interval )._id
-                    interval: i._id,
-                    period: p,
-                })
-            });
-            return r;
         },
 
         getRooms(){
