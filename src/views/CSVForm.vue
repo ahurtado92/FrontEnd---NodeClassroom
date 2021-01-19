@@ -101,7 +101,6 @@ export default {
                 }
             }
             
-            //console.log(this.rooms[0]._id);
             this.modCSV = this.modifyBeforeSubmit();
             console.log(this.modCSV);
 
@@ -119,10 +118,12 @@ export default {
         modifyBeforeSubmit(){
             var r = [];
             this.parseCsv.forEach(element => {
-                //var room = this.rooms.find( (item) => item.name == element.classroom )
                 var i = this.intervals.find( (item) => item.extId == element.interval )
                 var p = this.thisPeriod = this.periods.find((item) => item._id == i.periodId )
                 var intWeeks = moment(p.endDate).diff(moment(p.initDate), 'weeks') //Interval of weeks in period of that element
+                for (i=0; i<intWeeks; i++){
+                    console.log("Hola: "+i);
+                }
 
                 r.push({
                     id: element.id,
