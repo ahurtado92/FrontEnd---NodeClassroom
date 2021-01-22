@@ -123,6 +123,7 @@
                         <th scope="col">Room</th>
                         <th scope="col">Init</th>
                         <th scope="col">End</th>
+                        <th scope="col">Grupo</th>
                         <th scope="col">Color</th>
                         <th scope="col">Fecha de creación</th>
                         <th scope="col">Acciones</th>
@@ -136,6 +137,7 @@
                     <td>{{item.roomId}}</td>
                     <td>{{item.initDate}}</td>
                     <td>{{item.endDate}}</td>
+                    <td>{{item.group}}</td>
                     <td>
                         <v-sheet
                             v-bind:color="item.color"
@@ -214,6 +216,7 @@ export default {
                         description: evt.description,
                         endDate: new Date(evt.endDate).toLocaleString(),
                         initDate: new Date(evt.initDate).toLocaleString(),
+                        group: evt.group,
                         material: evt.material,
                         modGroups: evt.modGroups,
                         modUsers: evt.modUsers,

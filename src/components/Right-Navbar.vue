@@ -33,6 +33,7 @@
 
         </v-list-item>
 
+        <!--
         <v-list-group style="margin-left: -16px" no-action>
 
           <template v-slot:activator>
@@ -70,7 +71,7 @@
             </v-list-item>
           </template>
 
-          <v-list-item >
+            <v-list-item >
             <v-list-item-icon><v-icon>account_box</v-icon></v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title class="primary--text">
@@ -89,6 +90,7 @@
           </v-list-item>
 
         </v-list-group>
+        -->
 
         <v-list-item
           text
@@ -134,14 +136,14 @@ import { mapActions, mapGetters } from 'vuex';
         items: [
           { title: 'Home', icon: 'home', path: '/' },
           { title: 'Notas', icon: 'note', path: 'notas'  },
-          { title: 'Users', icon: 'mdi-account-group-outline', path: 'users'  },
+          { title: 'Usuarios', icon: 'mdi-account-group-outline', path: 'users'  },
+          { title: 'Grupos', icon: 'group', path: 'groups'  },
           { title: 'Calendario', icon: 'calendar_today', path: 'calendar'  },
-          { title: 'Instancias', icon: 'pan_tool', path: 'instances'  },
-          { title: 'Material', icon: 'weekend', path: 'materials'  },
+          //{ title: 'Instancias', icon: 'pan_tool', path: 'instances'  },
+          //{ title: 'Material', icon: 'weekend', path: 'materials'  },
           { title: 'Reservas', icon: 'bookmarks', path: 'bookings'  },
           { title: 'Espacios', icon: 'room', path: 'rooms'  },
           { title: 'Eventos', icon: 'local_activity', path: 'events'  },
-          { title: 'Grupos', icon: 'group', path: 'groups'  },
           { title: 'Franjas', icon: 'group', path: 'intervals'  },
           { title: 'Periodos', icon: 'group', path: 'periods'  },
           { title: 'Asignaturas', icon: 'group', path: 'subjects'  },

@@ -17,16 +17,23 @@
             ></v-text-field>
             -->
 
-            <v-container id="dropdown-example-3">
-                <v-overflow-btn
-                    v-model="user.role"
-                    class="my-2"
-                    :items="dropdown_edit"
-                    label="Role"
-                    item-value="text"
-                    required
-                ></v-overflow-btn>
-            </v-container>
+            <v-overflow-btn
+                v-model="user.role"
+                class="my-2"
+                :items="dropdown_edit"
+                label="Role"
+                item-value="text"
+                required
+            ></v-overflow-btn>
+
+            <v-overflow-btn
+                v-model="user.group"
+                class="my-2"
+                :items="groups"
+                label="Group"
+                item-value="text"
+                required
+            ></v-overflow-btn>
 
             <v-text-field
                 v-model="user.nombre"
@@ -91,16 +98,24 @@
         >
             <h3 class="text-center">Modify user</h3>
 
-            <v-container id="dropdown-example-3">
-                <v-overflow-btn
-                    v-model="userToEdit.role"
-                    class="my-2"
-                    :items="dropdown_edit"
-                    label="Role"
-                    item-value="text"
-                    required
-                ></v-overflow-btn>
-            </v-container>
+            
+            <v-overflow-btn
+                v-model="userToEdit.role"
+                class="my-2"
+                :items="dropdown_edit"
+                label="Role"
+                item-value="text"
+                required
+            ></v-overflow-btn>
+
+            <v-overflow-btn
+                v-model="userToEdit.roomId"
+                class="my-2"
+                :items="groups"
+                label="Grupo"
+                item-value="value"
+                required
+            ></v-overflow-btn>
 
             <v-text-field
                 v-model="userToEdit.nombre"
@@ -172,7 +187,7 @@
                     <th scope="col">Phone</th>
                     <th scope="col">Birth</th>
                     <th scope="col">Email</th>
-                    <th scope="col">Avatar</th>
+                    <th scope="col">Group</th>
                     <th scope="col">Acciones</th>
                     </tr>
                 </thead>
@@ -185,14 +200,7 @@
                     <td>{{item.phone}}</td>
                     <td>{{item.birth}}</td>
                     <td>{{item.email}}</td>
-                    <td>
-                        <v-img
-                            :lazy-src="item.avatar"
-                            max-height="50"
-                            max-width="50"
-                            :src="'/img/avatar/'+item.avatar"
-                        ></v-img>    
-                    </td>
+                    <td>{{item.group}}</td>
                     <td>
                         <v-btn
                             color="primary"
@@ -220,6 +228,7 @@ export default {
     data() {
         return {
             users: [],
+            groups: [],
             user: {},
             add: true,
             userToEdit: {},
@@ -234,6 +243,7 @@ export default {
     },
     created(){
         this.listUsers();
+        this.listGroups();
     },
     computed: {
         ...mapState(['token'])
@@ -304,7 +314,29 @@ export default {
         updateBirthDate(v,d){
             //console.log("updatingBirthDate " + d);
             d.birth = v;
-        }
+        },
+
+        listGroups(){
+            let groupL = []
+            let config = {
+                headers: {
+                    token: this.token
+                }
+            }
+            this.axios.get('groups', config)
+            .then((response) => {
+                groupL = response.data;
+                groupL.forEach(evt=>{
+                    this.groups.push({
+                        text: evt.name,
+                        value: evt._id,
+                    })
+                });
+            })
+            .catch((e)=>{
+                console.log('error' + e);
+            })
+        },
     }
 };
 </script>

@@ -11,12 +11,45 @@
     }">
     </vue-csv-import>-->
 
-    <vue-csv-import
+    <!--<vue-csv-import
         v-model="parseCsv"
         url=""
         :map-fields="['id', 'group', 'teacher', 'subject', 'classroom', 'weekday', 'interval']"
+    >-->
+    <vue-csv-import 
+        v-model="parseCsv" 
+        :map-fields="['id', 'group', 'teacher', 'subject', 'classroom', 'weekday', 'interval']"
+        :fields="{
+            id: {
+                required: true, 
+                label: 'id'
+            }, 
+            group: {
+                required: false, 
+                label: 'group'
+            }, 
+            teacher: {
+                required: true, 
+                label: 'teacher'
+            },
+            subject: {
+                required: true, 
+                label: 'subject'
+            },
+            classroom: {
+                required: true, 
+                label: 'classroom'
+            }, 
+            weekday: {
+                required: true, 
+                label: 'weekday'
+            }, 
+            interval: {
+                required: true, 
+                label: 'interval'
+            },
+        }"
     >
-
         <template slot="hasHeaders" slot-scope="{headers, toggle}">
             <label>
                 <input type="checkbox" id="hasHeaders" :value="headers" @change="toggle">
@@ -70,6 +103,8 @@ export default {
             parseCsv: null,
             modCSV: null,
             elementCSV: null,
+            eventCSV: null,
+            events: [],
             rooms: [],
             periods: [],
             thisPeriod: null,
@@ -86,6 +121,7 @@ export default {
         ...mapState(['token'])
     },
     created () {
+        this.getEvents();
         this.getRooms();
         this.getIntervals();
         this.getPeriods();
@@ -101,17 +137,24 @@ export default {
         },
 
         modifyBeforeSubmit(){
+
+            let config = {
+                headers: {
+                    token: this.token
+                }
+            }
             
             this.parseCsv.forEach(element => {
+                var evt = []
                 var i = this.intervals.find( (item) => item.extId == element.interval )
                 var p = this.thisPeriod = this.periods.find((item) => item._id == i.periodId )
-                var intWeeks = moment(p.endDate).diff(moment(p.initDate), 'weeks') //Interval of weeks in period of that element
+                var intWeeks = moment(p.endDate).diff(moment(p.initDate), 'weeks')
 
                 let id = element.id
-                let group = this.groups.find( (item) => item.name == element.group )._id
-                let teacher = this.users.find( (item) => item.uname == element.teacher )._id
+                let group = this.groups.find( (item) => item.name == element.group )
+                let teacher = this.users.find( (item) => item.uname == element.teacher )
                 let subject = this.subjects.find( (item) => item.name == element.subject )
-                let classroom = this.rooms.find( (item) => item.name == element.classroom )._id
+                let classroom = this.rooms.find( (item) => item.name == element.classroom )
                 let weekday = element.weekday
                 let interval = i._id
                 let resInitTime = i.initDate.split(":");
@@ -128,34 +171,55 @@ export default {
                 eDoW.set('hour',resEndTime[0])
                 eDoW.set('minute',resEndTime[1])
 
-
-                for (let iter=0; iter<intWeeks; iter++){
-                    var r = [];
-
-                    r.push({
+                if(!this.eventCSV || this.eventCSV.find(x => x.extId == id)==undefined){
+                    evt.push({
                         extId: id,
-                        group: group,
-                        creatorId: teacher,
-                        name: subject.name,
-                        roomId: classroom,
+                        group: group._id,
+                        creatorId: teacher._id,
+                        subject: subject._id,
+                        roomId: classroom._id,
                         weekday: weekday,
                         interval: interval,
-                        initDate: iDoW.format('YYYY/MM/DD HH:mm'),
-                        endDate: eDoW.format('YYYY/MM/DD HH:mm'),
-                        color: subject.color,
                     })
-                    console.log(r);
-                    
-                    iDoW.add(1, 'week'); 
-                    eDoW.add(1, 'week'); 
 
-                    this.upload(r);
+                    this.axios.post('new-event', evt, config)
+                    .then(res => {
+                        //this.listIntervals();
+                        console.log('OK!!!')
+                    })
+                    .catch( e => {
+                        console.log(e.response);
+                    })
 
+                    for (let iter=0; iter<intWeeks; iter++){
+                        var r = [];
+
+                        r.push({
+                            extId: id,
+                            group: group._id,
+                            creatorId: teacher._id,
+                            name: subject.name,
+                            roomId: classroom._id,
+                            weekday: weekday,
+                            interval: interval,
+                            initDate: iDoW.format('YYYY/MM/DD HH:mm'),
+                            endDate: eDoW.format('YYYY/MM/DD HH:mm'),
+                            color: subject.color,
+                        })
+                        //console.log(r);
+                        
+                        iDoW.add(1, 'week'); 
+                        eDoW.add(1, 'week'); 
+
+                        this.upload(r);
+
+                    }
                 }
+
             });
         },
 
-        upload(r){
+        upload(r,eventCSV){
 
             let config = {
                 headers: {
@@ -166,10 +230,28 @@ export default {
             this.axios.post('new-booking', r, config)
             .then(res => {
                 //this.listIntervals();
-                console.log('OK!!!')
+                parseCsv = null;
+                modCSV = null;
+                elementCSV = null;
             })
             .catch( e => {
                 console.log(e.response);
+            })
+        },
+
+        getEvents(){
+            let config = {
+                headers: {
+                    token: this.token
+                }
+            }
+            this.axios.get('events', config)
+            .then((response) => {
+                this.events = response.data;
+                //console.log(this.rooms);
+            })
+            .catch((e)=>{
+                console.log('error' + e);
             })
         },
 
