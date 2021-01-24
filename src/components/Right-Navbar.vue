@@ -1,98 +1,29 @@
 <template v-slot:prepend>
-      
-      <v-list dense>
 
-        <v-list-item>
+  <!--<MenuList :items="items" :unm="unm" />-->
+  <v-container>
+    <v-list dense>
+      <v-list-item>
           <v-list-item-avatar>
-            <!--<img src="https://randomuser.me/api/portraits/women/81.jpg">-->
             <v-icon>account_box</v-icon>
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title>{{this.unm}}</v-list-item-title>
+            <v-list-item-title>{{unm}}</v-list-item-title>
             <v-list-item-subtitle v-if="estaActivo">Logged In</v-list-item-subtitle>
             <v-list-item-subtitle v-else>Log In First!</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
 
-        <v-divider></v-divider>
-
-        <v-list-item
-          v-for="item in items"
-          :key="item.title"
-          :to=item.path
-        >
-          
-            <v-list-item-icon>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-icon>
-
-            <v-list-item-content>
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </v-list-item-content>
-
-        </v-list-item>
-
-        <!--
-        <v-list-group style="margin-left: -16px" no-action>
-
-          <template v-slot:activator>
-            <v-list-item>
-              <v-list-item-icon><v-icon>account_box</v-icon></v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title class="primary--text">
-                  <p>Titles</p>
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </template>
-
-          <v-list-item >
-            <v-list-item-icon><v-icon>account_box</v-icon></v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title class="primary--text">
-                <p>Subtitle</p>
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-
-        </v-list-group>
-
-        <v-list-group style="margin-left: -16px" no-action>
-
-          <template v-slot:activator>
-            <v-list-item>
-              <v-list-item-icon><v-icon>account_box</v-icon></v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title class="primary--text">
-                  <p>Titles</p>
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </template>
-
-            <v-list-item >
-            <v-list-item-icon><v-icon>account_box</v-icon></v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title class="primary--text">
-                <p>Subtitle</p>
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-list-item >
-            <v-list-item-icon><v-icon>account_box</v-icon></v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title class="primary--text">
-                <p>Subtitle2</p>
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-
-        </v-list-group>
-        -->
-
-        <v-list-item
+    </v-list>
+    <v-divider></v-divider>
+    <MenuList :items="noConditionItems" />
+    <MenuList v-if="estaActivo" :items="activeItems" />
+    <MenuList v-if="!estaActivo" :items="notActiveItems" />
+    <MenuList v-if="estaActivo && isAdmin" :items="adminItems" />
+    <v-divider></v-divider>
+    <v-list>
+      <v-list-item
           text
           @click="cerrarSesion()"
           v-if="estaActivo"
@@ -119,35 +50,38 @@
               <v-list-item-title>Login</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
-
-      </v-list>
-
-
+    </v-list>
+  </v-container>
+      
 </template>
 
 <script>
+import MenuList from '@/components/MenuList.vue';
 import { mapActions, mapGetters } from 'vuex';
   export default {
     name: 'RightNavbar',
+    components:{
+        MenuList
+    },
     data () {
       return {
         drawer: null,
         appTitle: 'Awesome App',
         items: [
-          { title: 'Home', icon: 'home', path: '/' },
-          { title: 'Notas', icon: 'note', path: 'notas'  },
-          { title: 'Usuarios', icon: 'mdi-account-group-outline', path: 'users'  },
-          { title: 'Grupos', icon: 'group', path: 'groups'  },
-          { title: 'Calendario', icon: 'calendar_today', path: 'calendar'  },
-          //{ title: 'Instancias', icon: 'pan_tool', path: 'instances'  },
-          //{ title: 'Material', icon: 'weekend', path: 'materials'  },
-          { title: 'Reservas', icon: 'bookmarks', path: 'bookings'  },
-          { title: 'Espacios', icon: 'room', path: 'rooms'  },
-          { title: 'Eventos', icon: 'local_activity', path: 'events'  },
-          { title: 'Franjas', icon: 'group', path: 'intervals'  },
-          { title: 'Periodos', icon: 'group', path: 'periods'  },
-          { title: 'Asignaturas', icon: 'group', path: 'subjects'  },
-          { title: 'CSV', icon: 'group', path: 'csvform'  },
+          { title: 'Home', icon: 'home', path: '/', conditions: '' },
+          { title: 'Notas', icon: 'note', path: 'notas', conditions: 'estaActivo'  },
+          { title: 'Calendario', icon: 'calendar_today', path: 'calendar', conditions: 'estaActivo'  },
+          { title: 'Usuarios', icon: 'mdi-account-group-outline', path: 'users', conditions: 'estaActivo && isAdmin'  },
+          { title: 'Grupos', icon: 'group', path: 'groups', conditions: 'estaActivo && isAdmin'  },
+          //{ title: 'Instancias', icon: 'pan_tool', path: 'instances', conditions: 'estaActivo && isAdmin'  },
+          //{ title: 'Material', icon: 'weekend', path: 'materials', conditions: 'estaActivo && isAdmin'  },
+          { title: 'Reservas', icon: 'bookmarks', path: 'bookings', conditions: 'estaActivo && isAdmin'  },
+          { title: 'Espacios', icon: 'room', path: 'rooms', conditions: 'estaActivo && isAdmin'  },
+          { title: 'Eventos', icon: 'local_activity', path: 'events', conditions: 'estaActivo && isAdmin'  },
+          { title: 'Franjas', icon: 'group', path: 'intervals', conditions: 'estaActivo && isAdmin'  },
+          { title: 'Periodos', icon: 'group', path: 'periods', conditions: 'estaActivo && isAdmin'  },
+          { title: 'Asignaturas', icon: 'group', path: 'subjects', conditions: 'estaActivo && isAdmin'  },
+          { title: 'CSV', icon: 'group', path: 'csvform', conditions: 'estaActivo && isAdmin'  },
         ],
         uname: null,
         unm: null,
@@ -195,7 +129,7 @@ import { mapActions, mapGetters } from 'vuex';
     created(){
         this.leerToken();
         //this.uname = this.getUsername();
-        this.setUname();
+        //this.setUname();
         this.createdMenuItems = this.items;
     }
   }

@@ -20,7 +20,8 @@ export default new Vuex.Store({
         state.usuarioDB = '';
       } else {
         state.usuarioDB = decode(payload);
-        router.push({name: 'notas'});
+        //router.push({name: 'notas'});
+        router.push({name: '/calendar'});
       }
     }
   },

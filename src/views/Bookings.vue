@@ -15,6 +15,15 @@
                 required
             ></v-text-field>
 
+            <v-overflow-btn
+                v-model="booking.group"
+                class="my-2"
+                :items="groups"
+                label="Group"
+                item-value="text"
+                required
+            ></v-overflow-btn>
+
             <v-text-field
                 v-model="booking.description"
                 label="Descripción"
@@ -69,6 +78,15 @@
                 label="Nombre"
                 required
             ></v-text-field>
+
+            <v-overflow-btn
+                v-model="bookingToModify.roomId"
+                class="my-2"
+                :items="groups"
+                label="Grupo"
+                item-value="value"
+                required
+            ></v-overflow-btn>
 
             <v-text-field
                 v-model="bookingToModify.description"
@@ -180,6 +198,7 @@ export default {
             bookings: [],
             booking: {},
             rooms: [],
+            groups: [],
             add: true,
             bookingToModify: {},
         };
@@ -190,8 +209,9 @@ export default {
       ColorPicker,
     },
     created(){
-        this.listBookings();
-        this.listRooms();
+        this.getGroups();
+        this.getRooms();
+        this.getBookings();
     },
     computed: {
         ...mapState(['token'])
@@ -205,33 +225,46 @@ export default {
                     token: this.token
                 }
             }
-            this.axios.get('bookings', config)
-            .then((response) => {
-                response.data.forEach(evt=>{
-                    r.push({
-                        accessGroups: evt.accessGroups,
-                        accessUsers: evt.accessUsers,
-                        color: evt.color,
-                        date: new Date(evt.date).toLocaleString(),
-                        description: evt.description,
-                        endDate: new Date(evt.endDate).toLocaleString(),
-                        initDate: new Date(evt.initDate).toLocaleString(),
-                        group: evt.group,
-                        material: evt.material,
-                        modGroups: evt.modGroups,
-                        modUsers: evt.modUsers,
-                        name: evt.name,
-                        roomId: this.rooms.find( rm => rm.value == evt.roomId ).text,
-                        __v: evt.__v,
-                        _id: evt._id,
-                    })
-                });
-                this.bookings = r;
-            })
-            .catch((e)=>{
-                console.log('error' + e);
-            })
-            
+
+            if(this.rooms){
+                this.axios.get('bookings', config)
+                .then((response) => {
+                    response.data.forEach(evt=>{
+                        const g = this.groups.find( (item) => item.value == evt.group )
+                        console.log(g);
+                        //console.log(g.text);
+                        let gId = [];
+                        if(g !== undefined){
+                            gId = g
+                        }
+                        r.push({
+                            accessGroups: evt.accessGroups,
+                            accessUsers: evt.accessUsers,
+                            color: evt.color,
+                            date: new Date(evt.date).toLocaleString(),
+                            description: evt.description,
+                            endDate: new Date(evt.endDate).toLocaleString(),
+                            initDate: new Date(evt.initDate).toLocaleString(),
+                            //group: evt.group,
+                            group: gId.text,
+                            material: evt.material,
+                            modGroups: evt.modGroups,
+                            modUsers: evt.modUsers,
+                            name: evt.name,
+                            //roomId: this.rooms.find( rm => rm.value == evt.roomId ).text,
+                            roomId: this.rooms.find( room => room.value == evt.roomId ).text,
+                            //roomId: this.rooms.find( (item) => item.value ).text,
+                            //roomId: evt.roomId,
+                            __v: evt.__v,
+                            _id: evt._id,
+                        })
+                    });
+                    this.bookings = r;
+                })
+                .catch((e)=>{
+                    console.log('error' + e);
+                })
+            }
         },
 
         listRooms(){
@@ -312,6 +345,40 @@ export default {
         updateColor(v,c){
             c.color=v.hex;
         },
+
+        listGroups(){
+            let groupL = []
+            let config = {
+                headers: {
+                    token: this.token
+                }
+            }
+            this.axios.get('groups', config)
+            .then((response) => {
+                groupL = response.data;
+                groupL.forEach(evt=>{
+                    this.groups.push({
+                        text: evt.name,
+                        value: evt._id,
+                    })
+                });
+            })
+            .catch((e)=>{
+                console.log('error' + e);
+            })
+        },
+
+        async getGroups(){
+                await this.listGroups();
+        },
+
+        async getRooms(){
+                await this.listRooms();
+        },
+
+        async getBookings(){
+                await this.listBookings();
+        }
     }
 };
 </script>
