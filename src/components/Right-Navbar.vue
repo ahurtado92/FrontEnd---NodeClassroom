@@ -82,6 +82,7 @@ import { mapActions, mapGetters } from 'vuex';
           { title: 'Periodos', icon: 'group', path: 'periods', conditions: 'estaActivo && isAdmin'  },
           { title: 'Asignaturas', icon: 'group', path: 'subjects', conditions: 'estaActivo && isAdmin'  },
           { title: 'CSV', icon: 'group', path: 'csvform', conditions: 'estaActivo && isAdmin'  },
+          { title: 'Search', icon: 'group', path: 'search', conditions: 'estaActivo && isAdmin'  },
         ],
         uname: null,
         unm: null,

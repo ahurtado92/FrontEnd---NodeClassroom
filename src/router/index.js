@@ -103,6 +103,12 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/CSVForm.vue'),
     meta: {requireAuth: true, requireAdmin: true}
   },
+  {
+    path: '/search',
+    name: 'search',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Search.vue'),
+    meta: {requireAuth: true, requireAdmin: true}
+  },
 ]
 
 const router = new VueRouter({
