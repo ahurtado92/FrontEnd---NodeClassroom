@@ -17,27 +17,38 @@
                 required
             ></v-overflow-btn>
 
-            {{filteredIntervalByPeriod}}
-
             <v-overflow-btn 
+                v-model="interval"
                 :disabled= showWeekday
-                v-model="day"
+                class="my-2"
+                :items="filteredIntervalByPeriod"
+                label="Hora de inicio"
+                item-text="initDate"
+                item-value="_id"
+            ></v-overflow-btn>
+
+            <!--<v-overflow-btn 
                 class="my-2"
                 :items="weekdays"
                 label="Dia de la semana"
+                item-text="text"
                 item-value="value"
-            ></v-overflow-btn>
+            ></v-overflow-btn>-->
 
             {{filteredInterval}}
 
             <DatePicker label="Init date" />
 
-            <DatePicker label="End date" />
+            <!--<DatePicker label="End date" />-->
 
             <v-text-field
                 v-model="capacity"
                 label="Aforo"
             ></v-text-field>
+
+            {{filteredRooms}}
+
+            {{bookings}}
 
         </v-form>
         
@@ -121,11 +132,11 @@ export default {
             );
         },
         filteredInterval () {
-            const search = this.day;
+            const search = this.interval;
             if (!search) return this.filteredIntervalByPeriod;
             //return this.intervals.filter(c => c.extId.indexOf(search) > -1);
             return this.filteredIntervalByPeriod.filter(
-                c => c.extId === search
+                c => c._id === search
             );
         }
     },
@@ -181,31 +192,7 @@ export default {
             if(this.rooms){
                 this.axios.get('bookings', config)
                 .then((response) => {
-                    response.data.forEach(evt=>{
-                        const g = this.groups.find( (item) => item.value == evt.group )
-                        let gId = [];
-                        if(g !== undefined){
-                            gId = g
-                        }
-                        r.push({
-                            accessGroups: evt.accessGroups,
-                            accessUsers: evt.accessUsers,
-                            color: evt.color,
-                            date: new Date(evt.date).toLocaleString(),
-                            description: evt.description,
-                            endDate: new Date(evt.endDate).toLocaleString(),
-                            initDate: new Date(evt.initDate).toLocaleString(),
-                            group: gId.text,
-                            material: evt.material,
-                            modGroups: evt.modGroups,
-                            modUsers: evt.modUsers,
-                            name: evt.name,
-                            roomId: this.rooms.find( room => room.value == evt.roomId ).text,
-                            __v: evt.__v,
-                            _id: evt._id,
-                        })
-                    });
-                    this.bookings = r;
+                    this.rooms = response.data;
                 })
                 .catch((e)=>{
                     console.log('error' + e);
