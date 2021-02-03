@@ -27,15 +27,26 @@
                 item-value="_id"
             ></v-overflow-btn>
 
-            <!--<v-overflow-btn 
+            <v-overflow-btn 
+                v-model="interval"
+                :disabled= showWeekday
+                class="my-2"
+                :items="filteredIntervalByPeriod"
+                label="Hora final"
+                item-text="endDate"
+                item-value="_id"
+            ></v-overflow-btn>
+
+            <v-overflow-btn
+                v-model="day"
                 class="my-2"
                 :items="weekdays"
                 label="Dia de la semana"
                 item-text="text"
                 item-value="value"
-            ></v-overflow-btn>-->
+            ></v-overflow-btn>
 
-            {{filteredInterval}}
+            <!--{{filteredInterval}}-->
 
             <DatePicker label="Init date" />
 
@@ -46,9 +57,11 @@
                 label="Aforo"
             ></v-text-field>
 
-            {{filteredRooms}}
+            <!--{{filteredRooms}}-->
 
-            {{bookings}}
+            <!--{{bookings}}-->
+
+            {{nextWeekday}}
 
         </v-form>
         
@@ -71,6 +84,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import { mapState } from 'vuex';
 import DatePicker from '@/components/DatePicker.vue';
 import ColorPicker from '@/components/ColorPicker.vue';
@@ -78,13 +92,13 @@ export default {
     data() {
         return {
             weekdays: [
-                { text: 'Lunes', value: 2 },
-                { text: 'Martes', value: 3 },
-                { text: 'Miércoles', value: 4 },
-                { text: 'Jueves', value: 5 },
-                { text: 'Viernes', value: 6 },
-                { text: 'Sábado', value:7 },
-                { text: 'Domingo', value: 1 },
+                { text: 'Lunes', value: 1 },
+                { text: 'Martes', value: 2 },
+                { text: 'Miércoles', value: 3 },
+                { text: 'Jueves', value: 4 },
+                { text: 'Viernes', value: 5 },
+                { text: 'Sábado', value: 6 },
+                { text: 'Domingo', value: 7 },
             ],
 
             bookings: [],
@@ -138,7 +152,22 @@ export default {
             return this.filteredIntervalByPeriod.filter(
                 c => c._id === search
             );
-        }
+        },
+
+        nextWeekday () {
+            const search = this.day; 
+            if (!search) return null;
+            return moment().next(search);
+        },
+
+        filteredBookings () {
+            const search = this.nextWeekday;
+            if (!search) return this.bookings;
+            //return this.intervals.filter(c => c.extId.indexOf(search) > -1);
+            return this.bookings.filter(
+                c => c.initDate === search
+            );
+        },
     },
     methods:{
 
