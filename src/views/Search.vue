@@ -61,11 +61,11 @@
 
             <!--{{bookings}}-->
 
-            {{nextWeekday}}
+           
 
         </v-form>
         
-        
+        <p>Fecha: {{nextWeekday}}</p>
 
         <!--<v-simple-table>
             <template v-slot:default>
@@ -157,15 +157,21 @@ export default {
         nextWeekday () {
             const search = this.day; 
             if (!search) return null;
-            return moment().next(search);
+            const d = moment().day(search);
+            const resInitTime = this.filteredInterval[0].initDate.split(":");
+            d.set('hour',resInitTime[0])
+            d.set('minute',resInitTime[1])
+            d.set('second','00')
+            return d;
         },
 
         filteredBookings () {
             const search = this.nextWeekday;
             if (!search) return this.bookings;
             //return this.intervals.filter(c => c.extId.indexOf(search) > -1);
-            return this.bookings.filter(
-                c => c.initDate === search
+            //console.log(moment(this.bookings[0].initDate).format('YYYY/MM/DD HH:mm'))
+            //console.log(search.format('YYYY/MM/DD HH:mm'))
+            return this.bookings.filter(c => moment(c.initDate).format('YYYY/MM/DD HH:mm') === search.format('YYYY/MM/DD HH:mm')
             );
         },
     },
@@ -210,23 +216,20 @@ export default {
         },
 
         listBookings(){
-            var r = []
-            var room = null
             let config = {
                 headers: {
                     token: this.token
                 }
             }
 
-            if(this.rooms){
-                this.axios.get('bookings', config)
-                .then((response) => {
-                    this.rooms = response.data;
-                })
-                .catch((e)=>{
-                    console.log('error' + e);
-                })
-            }
+            this.axios.get('bookings', config)
+            .then((response) => {
+                this.bookings = response.data;
+            })
+            .catch((e)=>{
+                console.log('error' + e);
+            })
+            
         },
 
         listIntervals(){
