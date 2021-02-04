@@ -167,19 +167,26 @@ export default {
         },
 
         filteredBookingsByRoom(){
-            const search = this.filteredRooms._id;
+            let search = []
             if (!search) return this.bookings;
-            //return this.intervals.filter(c => c.extId.indexOf(search) > -1);
-            return this.bookings.filter(
-                c => c.roomId === search
-            );
+            this.filteredRooms.forEach(evt=>{search.push(this.bookings.filter(c => c.roomId == evt._id))})
+            return search
         },
 
         filteredBookings () {
+            let arr = []
             const search = this.nextWeekday;
-            //const search = this.filteredBookingsByRoom;
-            if (!search) return this.bookings;
-            return this.bookings.some(c => moment(c.initDate).format('YYYY/MM/DD HH:mm') === search.format('YYYY/MM/DD HH:mm'));
+            //if (!search) return this.bookings;
+            //return this.bookings.some(c => moment(c.initDate).format('YYYY/MM/DD HH:mm') === search.format('YYYY/MM/DD HH:mm'));
+            if (!search) return this.filteredBookingsByRoom;
+            this.filteredBookingsByRoom.forEach(
+                evt=>{
+                    arr.push(
+                        evt.some(c => moment(c.initDate).format('YYYY/MM/DD HH:mm') === search.format('YYYY/MM/DD HH:mm'))
+                    )
+                }
+            )
+            return arr
         },
     },
     methods:{
