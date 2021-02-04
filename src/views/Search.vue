@@ -136,6 +136,7 @@ export default {
                 c => c.capacity >= search
             );
         },
+
         filteredIntervalByPeriod () {
             const search = this.period;
             if (!search) return this.intervals;
@@ -165,14 +166,20 @@ export default {
             return d;
         },
 
-        filteredBookings () {
-            const search = this.nextWeekday;
+        filteredBookingsByRoom(){
+            const search = this.filteredRooms._id;
             if (!search) return this.bookings;
             //return this.intervals.filter(c => c.extId.indexOf(search) > -1);
-            //console.log(moment(this.bookings[0].initDate).format('YYYY/MM/DD HH:mm'))
-            //console.log(search.format('YYYY/MM/DD HH:mm'))
-            return this.bookings.filter(c => moment(c.initDate).format('YYYY/MM/DD HH:mm') === search.format('YYYY/MM/DD HH:mm')
+            return this.bookings.filter(
+                c => c.roomId === search
             );
+        },
+
+        filteredBookings () {
+            const search = this.nextWeekday;
+            //const search = this.filteredBookingsByRoom;
+            if (!search) return this.bookings;
+            return this.bookings.some(c => moment(c.initDate).format('YYYY/MM/DD HH:mm') === search.format('YYYY/MM/DD HH:mm'));
         },
     },
     methods:{
