@@ -48,7 +48,7 @@
 
             <!--{{filteredInterval}}-->
 
-            <DatePicker label="Init date" />
+            <!--<DatePicker label="Init date" />-->
 
             <!--<DatePicker label="End date" />-->
 
@@ -78,6 +78,36 @@
                 </tbody>
             </template>
         </v-simple-table>-->
+
+
+        <v-simple-table>
+            <template v-slot:default>
+                <thead>
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Aforo</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, index) in filteredRooms" :key="index">
+                    <th scope="row">{{item.name}}</th>
+                    <td>{{item.description}}</td>
+                    <td>{{item.capacity}}</td>
+                    <td>
+                        <v-btn
+                            color="primary"
+                            class="mx-2"
+                            @click.stop="bookRoom(item._id)"
+                        >Reservar</v-btn>
+                        
+                    </td>
+                    </tr>
+                </tbody>
+            </template>
+        </v-simple-table>
+
 
     </div>
 
@@ -183,11 +213,26 @@ export default {
                 evt=>{
                     arr.push(
                         evt.some(c => moment(c.initDate).format('YYYY/MM/DD HH:mm') === search.format('YYYY/MM/DD HH:mm'))
+                        //evt.filter(c => moment(c.initDate).format('YYYY/MM/DD HH:mm') === search.format('YYYY/MM/DD HH:mm'))
                     )
                 }
             )
             return arr
         },
+        filteredNotBookedRooms() {
+            let arr = []
+            const search = this.filteredBookings;
+            
+            if (!search) return this.filteredRooms;
+            
+            arr.push(
+                this.filteredRooms[this.filteredBookings.filter(
+                    c => c == false
+                ).keys()]
+            )
+            return arr
+            
+        }
     },
     methods:{
 
