@@ -77,6 +77,7 @@ const routes = [
     path: '/users',
     name: 'users',
     component: () => import(/* webpackChunkName: "about" */ '../views/Users.vue'),
+    //meta: {requireAuth: true}
     meta: {requireAuth: true, requireAdmin: true}
   },
   {
@@ -125,7 +126,8 @@ router.beforeEach((to, from, next) => {
   if(rutaProtegida && store.state.token === '') {
     next({name: 'login'})
   } else {
-    if(rutaAdmin && store.state.usuarioDB.data.role != 'ADMIN'){
+    //if(rutaAdmin && store.state.usuarioDB.data.role != 'ADMIN'){
+    if(rutaAdmin && store.state.usuarioDB.data.role == 'USER'){
       next({name: 'login'})
     }else{
       next();

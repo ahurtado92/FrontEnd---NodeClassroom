@@ -48,6 +48,7 @@ export default new Vuex.Store({
   },
   getters: {
     estaActivo: state => !!state.token,
+    isTeacher: state => state.usuarioDB.data.role === 'TEACHER',
     isAdmin: state => state.usuarioDB.data.role === 'ADMIN',
     getUsername: state => {return state.usuarioDB.data.nombre+" "+state.usuarioDB.data.apellidos}
       

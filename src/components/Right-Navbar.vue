@@ -20,7 +20,7 @@
     <MenuList :items="noConditionItems" />
     <MenuList v-if="estaActivo" :items="activeItems" />
     <MenuList v-if="!estaActivo" :items="notActiveItems" />
-    <MenuList v-if="estaActivo && isAdmin" :items="adminItems" />
+    <MenuList v-if="estaActivo && (isAdmin || isTeacher)" :items="adminItems" />
     <v-divider></v-divider>
     <v-list>
       <v-list-item
@@ -104,7 +104,7 @@ import { mapActions, mapGetters } from 'vuex';
       }
     },
     computed: {
-        ...mapGetters(['estaActivo','isAdmin']),
+        ...mapGetters(['estaActivo','isAdmin', 'isTeacher']),
         noConditionItems: function() {
             return this.createdMenuItems.filter(function(i) {
                 return i.conditions===""
@@ -125,6 +125,7 @@ import { mapActions, mapGetters } from 'vuex';
                 return i.conditions==="estaActivo && isAdmin"
             }) 
         },
+
 
     },
     created(){

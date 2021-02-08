@@ -235,6 +235,7 @@ export default {
             dropdown_edit: [
                 { text: 'ADMIN' },
                 { text: 'USER' },
+                { text: 'TEACHER' },
             ],
         };
     },
