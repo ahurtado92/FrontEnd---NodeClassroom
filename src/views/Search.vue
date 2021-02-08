@@ -46,39 +46,12 @@
                 item-value="value"
             ></v-overflow-btn>
 
-            <!--{{filteredInterval}}-->
-
-            <!--<DatePicker label="Init date" />-->
-
-            <!--<DatePicker label="End date" />-->
-
             <v-text-field
                 v-model="capacity"
                 label="Aforo"
-            ></v-text-field>
-
-            <!--{{filteredRooms}}-->
-
-            <!--{{bookings}}-->
-
-           
+            ></v-text-field>           
 
         </v-form>
-        
-        <p>Fecha: {{nextWeekday}}</p>
-
-        <!--<v-simple-table>
-            <template v-slot:default>
-                <tbody>
-                    <tr v-for="(_id, name, capacity) in filteredRooms" :key="_id">
-                        <th scope="row">{{_id}}</th>
-                        <td>{{name}}</td>
-                        <td>{{capacity}}</td>
-                    </tr>
-                </tbody>
-            </template>
-        </v-simple-table>-->
-
 
         <v-simple-table>
             <template v-slot:default>
@@ -107,7 +80,6 @@
                 </tbody>
             </template>
         </v-simple-table>
-
 
     </div>
 
@@ -188,11 +160,14 @@ export default {
         nextWeekday () {
             const search = this.day; 
             if (!search) return null;
+            const today = moment();
             const d = moment().day(search);
+            
             const resInitTime = this.filteredInterval[0].initDate.split(":");
             d.set('hour',resInitTime[0])
             d.set('minute',resInitTime[1])
             d.set('second','00')
+            while( d < today){d.add(1, 'w');}
             return d;
         },
 
