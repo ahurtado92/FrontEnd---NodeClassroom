@@ -184,7 +184,7 @@ export default {
 
                     this.axios.post('new-event', evt, config)
                     .then(res => {
-                        this.$router.push({ name: 'bookings' });
+                        this.$router.push({ name: 'events' });
                     })
                     .catch( e => {
                         console.log(e.response);

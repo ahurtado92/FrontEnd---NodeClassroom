@@ -149,17 +149,12 @@ export default {
                 }
             }
             this.axios.get('intervals', config)
-            /*.then((response) => {
-                this.intervals = response.data;
-            })*/
             
             .then((response) => {
                 response.data.forEach(evt=>{
                     r.push({
                         extId: evt.extId,
                         date: new Date(evt.date).toLocaleString(),
-                        //endDate: new Date(evt.endDate).toLocaleString(),
-                        //initDate: new Date(evt.initDate).toLocaleString(),
                         endDate: evt.endDate,
                         initDate: evt.initDate,
                         periodId: this.periods.find( pr => pr.value == evt.periodId ).text,

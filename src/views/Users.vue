@@ -9,14 +9,6 @@
         >
             <h3 class="text-center">Agregar nuevo Usuario</h3>
 
-            <!--
-            <v-text-field
-                v-model="user.role"
-                label="Role"
-                required
-            ></v-text-field>
-            -->
-
             <v-overflow-btn
                 v-model="user.role"
                 class="my-2"
@@ -52,12 +44,6 @@
                 label="Teléfono"
                 required
             ></v-text-field>
-
-            <!--<v-text-field
-                v-model="user.birth"
-                label="Fecha de nacimiento"
-                required
-            ></v-text-field>-->
 
             <DatePicker label="Birth date" v-on:date="updateBirthDate($event, user)" />
 
@@ -135,11 +121,6 @@
                 required
             ></v-text-field>
 
-            <!--<v-text-field
-                v-model="userToEdit.birth"
-                label="Fecha de nacimiento"
-                required
-            ></v-text-field>-->
             <DatePicker label="Birth date" v-on:date="updateBirthDate($event, userToEdit)" />
             
 
@@ -313,7 +294,6 @@ export default {
             this.add = true;
         },
         updateBirthDate(v,d){
-            //console.log("updatingBirthDate " + d);
             d.birth = v;
         },
 

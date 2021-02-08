@@ -34,12 +34,6 @@
                     required
                 ></v-text-field>
 
-                <!--<v-text-field
-                    v-model="room.image"
-                    label="Imagen"
-                    required
-                ></v-text-field>-->
-
                 <v-btn
                     block
                     class="mr-4"
@@ -83,12 +77,6 @@
                     required
                 ></v-text-field>
 
-                <!--<v-text-field
-                    v-model="roomToEdit.image"
-                    label="Imagen"
-                    required
-                ></v-text-field>-->
-
                 <v-btn
                     class="mr-4"
                     type="submit"
@@ -112,7 +100,6 @@
                             <th scope="col">Descripción</th>
                             <th scope="col">Localización</th>
                             <th scope="col">Aforo</th>
-                            <!--<th scope="col">Fecha de creación</th>-->
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
@@ -122,7 +109,6 @@
                         <td>{{item.description}}</td>
                         <td>{{item.localisation}}</td>
                         <td>{{item.capacity}}</td>
-                        <!--<td>{{item.date}}</td>-->
                         <td>
                             <v-btn
                                 color="green"

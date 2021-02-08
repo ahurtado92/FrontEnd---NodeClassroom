@@ -40,7 +40,7 @@ export default {
     name: 'LoginForm',
     data() {
         return {
-            usuario: {email: 'usuario3@email.com', pass: 'Pass3'},
+            usuario: {email: '', pass: ''},
             mensaje: '',
             valid: false,
             emailRules: [ 
@@ -51,7 +51,6 @@ export default {
     methods: {
         ...mapActions(['guardarUsuario']),
         login(){
-            //console.log(this.usuario);
             this.axios.post('/login', this.usuario)
             .then(res => {
                 console.log(res.data);
@@ -60,7 +59,6 @@ export default {
             })
             .catch(e=>{
                 console.log(e.response);
-                //this.mensaje = e.response.data.mensaje;
             })
         },
     }

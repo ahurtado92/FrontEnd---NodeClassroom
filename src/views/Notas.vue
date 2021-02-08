@@ -84,8 +84,6 @@
                     <td>{{item.descripcion}}</td>
                     <td>{{item.date}}</td>
                     <td>
-                        <!--<b-button class="btn-warning btn-sm mx-2" @click="activarEdicion(item._id)">Actualizar</b-button>
-                        <b-button class="btn-danger btn-sm mx-2" @click="eliminarNota(item._id)">Eliminar</b-button>-->
                         <v-btn
                             color="primary"
                             class="mx-2"
@@ -130,7 +128,6 @@ export default {
             }
             this.axios.get('notas', config)
             .then((response) => {
-                //console.log(response.data)
                 this.notas = response.data;
             })
             .catch((e)=>{
@@ -159,7 +156,6 @@ export default {
             //this.mensaje.color = 'success';
             })
             .catch( e => {
-            //console.log(e.response.data.error.errors.nombre.message);
             console.log(e.response);
 
             // Alerta de mensaje
