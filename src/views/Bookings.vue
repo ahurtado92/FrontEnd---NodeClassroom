@@ -39,8 +39,6 @@
                 required
             ></v-overflow-btn>
 
-            <!--<DatePicker label="Init date" v-on:date="updateInitDate($event, booking)" />-->
-            <!--<TimePicker label="Init time" />-->
 
             <v-datetime-picker
                 label="Inicio"
@@ -113,7 +111,6 @@
                 v-model="bookingToModify.endDate">
             </v-datetime-picker>
 
-            <!--<ColorPicker v-on:color="updateColor($event, bookingToModify)" />-->
             <ColorPicker label="Color" v-on:color="updateColor($event, bookingToModify)" />
 
             <v-btn
@@ -232,7 +229,6 @@ export default {
                     response.data.forEach(evt=>{
                         const g = this.groups.find( (item) => item.value == evt.group )
                         console.log(g);
-                        //console.log(g.text);
                         let gId = [];
                         if(g !== undefined){
                             gId = g
@@ -245,16 +241,12 @@ export default {
                             description: evt.description,
                             endDate: new Date(evt.endDate).toLocaleString(),
                             initDate: new Date(evt.initDate).toLocaleString(),
-                            //group: evt.group,
                             group: gId.text,
                             material: evt.material,
                             modGroups: evt.modGroups,
                             modUsers: evt.modUsers,
                             name: evt.name,
-                            //roomId: this.rooms.find( rm => rm.value == evt.roomId ).text,
                             roomId: this.rooms.find( room => room.value == evt.roomId ).text,
-                            //roomId: this.rooms.find( (item) => item.value ).text,
-                            //roomId: evt.roomId,
                             __v: evt.__v,
                             _id: evt._id,
                         })

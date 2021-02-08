@@ -49,7 +49,15 @@
             <v-text-field
                 v-model="capacity"
                 label="Aforo"
-            ></v-text-field>           
+            ></v-text-field>
+
+            <v-text-field
+                v-model="bookingName"
+                label="Nombre"
+                required
+            ></v-text-field>
+
+            <ColorPicker label="Color" v-on:color="updateColor($event)" />
 
         </v-form>
 
@@ -115,6 +123,9 @@ export default {
             period:null,
             showWeekday: true,
 
+            bookingName: null,
+            bookingColor: '',
+
         };
     },
     components: {
@@ -133,7 +144,6 @@ export default {
         filteredRooms () {
             const search = this.capacity;
             if (!search) return this.rooms;
-            //return this.rooms.filter(c => c.capacity.indexOf(search) > -1);
             return this.rooms.filter(
                 c => c.capacity >= search
             );
@@ -142,7 +152,6 @@ export default {
         filteredIntervalByPeriod () {
             const search = this.period;
             if (!search) return this.intervals;
-            //return this.intervals.filter(c => c.extId.indexOf(search) > -1);
             this.showWeekday = false;
             return this.intervals.filter(
                 c => c.periodId === search
@@ -151,7 +160,6 @@ export default {
         filteredInterval () {
             const search = this.interval;
             if (!search) return this.filteredIntervalByPeriod;
-            //return this.intervals.filter(c => c.extId.indexOf(search) > -1);
             return this.filteredIntervalByPeriod.filter(
                 c => c._id === search
             );
@@ -181,16 +189,9 @@ export default {
         filteredBookings () {
             let arr = []
             const search = this.nextWeekday;
-            //if (!search) return this.bookings;
-            //return this.bookings.some(c => moment(c.initDate).format('YYYY/MM/DD HH:mm') === search.format('YYYY/MM/DD HH:mm'));
             if (!search) return this.filteredBookingsByRoom;
             this.filteredBookingsByRoom.forEach(
-                evt=>{
-                    arr.push(
-                        evt.some(c => moment(c.initDate).format('YYYY/MM/DD HH:mm') === search.format('YYYY/MM/DD HH:mm'))
-                        //evt.filter(c => moment(c.initDate).format('YYYY/MM/DD HH:mm') === search.format('YYYY/MM/DD HH:mm'))
-                    )
-                }
+                evt=>{arr.push(evt.some(c => moment(c.initDate).format('YYYY/MM/DD HH:mm') === search.format('YYYY/MM/DD HH:mm')))}
             )
             return arr
         },
@@ -318,6 +319,66 @@ export default {
         async getPeriods(){
                 await this.listPeriods();
         },
+
+        updateColor(v){
+            this.bookingColor = v.hex;
+        },
+
+        bookRoom(item){
+            let config = {
+                headers: {
+                    token: this.token
+                }
+            }
+            
+            let booking = [];
+
+            const resEndTime = this.filteredInterval[0].endDate.split(":");
+
+            let nextEndWeekday = this.nextWeekday.clone();
+            nextEndWeekday.set('hour',resEndTime[0])
+            nextEndWeekday.set('minute',resEndTime[1])
+            nextEndWeekday.set('second','00')
+
+            booking.push({
+                name: this.bookingName,
+                roomId: item,
+                initDate: this.nextWeekday.format('YYYY/MM/DD HH:mm'),
+                endDate: nextEndWeekday.format('YYYY/MM/DD HH:mm'),
+                color: this.bookingColor
+            });
+
+            this.axios.post('new-booking', booking, config)
+            .then(res => {
+                console.log(res);
+            })
+            .catch( e => {
+                console.log(e.response);
+            })
+            
+            this.bookings = []
+            this.rooms = []
+            this.groups = []
+            this.intervals = []
+            this.periods = []
+
+            this.capacity = null
+            this.day = null
+            this.interval = null
+            this.period = null
+            this.showWeekday = true
+
+            this.bookingName = null,
+            this.bookingColor = '',
+            
+            this.getGroups();
+            this.getRooms();
+            this.getBookings();
+            this.getIntervals();
+            this.getPeriods();
+
+        },
+
     },
 };
 </script>

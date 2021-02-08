@@ -209,7 +209,6 @@
         this.axios.get('bookings', config)
         .then((response) => {
             this.evtList = response.data;
-            //console.log(response.data);
         })
         .catch((e)=>{
             console.log('error' + e);
@@ -220,7 +219,6 @@
             name: evt.name,
             start: new Date(evt.initDate),
             end: new Date(evt.endDate),
-            //end: new Date(2021,0,5,4,30,0),
             color: evt.color,
             timed: true,
           })

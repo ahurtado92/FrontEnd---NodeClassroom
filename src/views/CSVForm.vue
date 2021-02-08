@@ -184,8 +184,7 @@ export default {
 
                     this.axios.post('new-event', evt, config)
                     .then(res => {
-                        //this.listIntervals();
-                        console.log('OK!!!')
+                        this.$router.push({ name: 'bookings' });
                     })
                     .catch( e => {
                         console.log(e.response);
@@ -206,7 +205,6 @@ export default {
                             endDate: eDoW.format('YYYY/MM/DD HH:mm'),
                             color: subject.color,
                         })
-                        //console.log(r);
                         
                         iDoW.add(1, 'week'); 
                         eDoW.add(1, 'week'); 
@@ -229,7 +227,6 @@ export default {
 
             this.axios.post('new-booking', r, config)
             .then(res => {
-                //this.listIntervals();
                 parseCsv = null;
                 modCSV = null;
                 elementCSV = null;
@@ -248,7 +245,6 @@ export default {
             this.axios.get('events', config)
             .then((response) => {
                 this.events = response.data;
-                //console.log(this.rooms);
             })
             .catch((e)=>{
                 console.log('error' + e);
@@ -264,7 +260,6 @@ export default {
             this.axios.get('rooms', config)
             .then((response) => {
                 this.rooms = response.data;
-                //console.log(this.rooms);
             })
             .catch((e)=>{
                 console.log('error' + e);
@@ -280,7 +275,6 @@ export default {
             this.axios.get('intervals', config)
             .then((response) => {
                 this.intervals = response.data;
-                //console.log(this.intervals);
             })
             .catch((e)=>{
                 console.log('error' + e);
@@ -311,7 +305,6 @@ export default {
             this.axios.get('usuarios', config)
             .then((response) => {
                 this.users = response.data;
-                //console.log(this.users);
             })
             .catch((e)=>{
                 console.log('error' + e);
@@ -327,7 +320,6 @@ export default {
             this.axios.get('groups', config)
             .then((response) => {
                 this.groups = response.data;
-                //console.log(this.groups);
             })
             .catch((e)=>{
                 console.log('error' + e);
@@ -343,7 +335,6 @@ export default {
             this.axios.get('subjects', config)
             .then((response) => {
                 this.subjects = response.data;
-                //console.log(this.subjects);
             })
             .catch((e)=>{
                 console.log('error' + e);
