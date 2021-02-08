@@ -91,7 +91,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(item, index) in filteredRooms" :key="index">
+                    <tr v-for="(item, index) in filteredNotBookedRooms" :key="index">
                     <th scope="row">{{item.name}}</th>
                     <td>{{item.description}}</td>
                     <td>{{item.capacity}}</td>
@@ -224,14 +224,15 @@ export default {
             const search = this.filteredBookings;
             
             if (!search) return this.filteredRooms;
-            
-            arr.push(
-                this.filteredRooms[this.filteredBookings.filter(
-                    c => c == false
-                ).keys()]
-            )
+                        
+            for (const [key, value] of search.entries()) {
+                if(!value){
+                    arr.push(this.rooms.filter(c => c._id == this.filteredBookingsByRoom[key][0].roomId)[0])
+                }
+                
+            }
+
             return arr
-            
         }
     },
     methods:{
