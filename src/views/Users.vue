@@ -96,6 +96,7 @@
             ></v-overflow-btn>
 
             <v-overflow-btn
+                v-if="userToEdit.role == 'USER'"
                 v-model="userToEdit.roomId"
                 class="my-2"
                 :items="groups"
