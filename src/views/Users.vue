@@ -98,7 +98,7 @@
 
             <v-overflow-btn
                 v-if="userToEdit.role == 'USER'"
-                v-model="userToEdit.roomId"
+                v-model="userToEdit.group"
                 class="my-2"
                 :items="groups"
                 label="Grupo"
@@ -249,9 +249,9 @@ export default {
             this.axios.get('usuarios', config)
             .then((response) => {
                 response.data.forEach(evt=>{
-                    const g = this.groups.find( (item) => item.value == evt.group )
+                    const g = this.groups.find( (item) => item.text == evt.group )
                     let gId = null;
-                    if(g !== undefined){
+                    if(g != undefined){
                         gId = g.text
                     }
                     r.push({
