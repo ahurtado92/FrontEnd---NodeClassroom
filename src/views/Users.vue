@@ -135,13 +135,13 @@
 
             <v-text-field
                 v-model="userToEdit.uname"
-                type="password"
                 label="Nombre de usuario"
                 required
             ></v-text-field>
 
             <v-text-field
                 v-model="userToEdit.pass"
+                type="password"
                 label="Contraseña"
                 required
             ></v-text-field>
