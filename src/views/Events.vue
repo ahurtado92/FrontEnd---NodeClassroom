@@ -104,7 +104,6 @@ export default {
                     })
                 });
                 this.eventos = r;
-                //this.eventos = response.data;
             })
             .catch((e)=>{
                 console.log('error' + e);

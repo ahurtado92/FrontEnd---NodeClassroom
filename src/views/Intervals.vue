@@ -221,7 +221,6 @@ export default {
             this.axios.get(`interval/${id}`)
             .then(res => {
                 this.intervalToEdit = res.data;
-                console.log(this.intervalToEdit)
             })
             .catch(e => {
                 console.log(e.response);

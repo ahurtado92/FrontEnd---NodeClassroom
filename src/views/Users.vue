@@ -185,11 +185,13 @@
                     <td>{{item.group}}</td>
                     <td>
                         <v-btn
+                            v-if="item.uname != 'admin'"
                             color="primary"
                             class="mx-2"
                             @click.stop="editUser(item._id)"
                         >Editar</v-btn>
                         <v-btn
+                            v-if="item.uname != 'admin'"
                             color="error"
                             class="mx-2"
                             @click.stop="deleteUser(item._id)"
@@ -248,6 +250,7 @@ export default {
                         gId = g.text
                     }
                     r.push({
+                        _id: evt._id,
                         role: evt.role,
                         activo: evt.activo,
                         nombre: evt.nombre,
