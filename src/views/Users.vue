@@ -46,7 +46,7 @@
                 required
             ></v-text-field>
 
-            <DatePicker label="Birth date" v-on:date="updateBirthDate($event, user)" />
+            <DatePicker label="Nacimiento" v-on:date="updateBirthDate($event, user)" />
 
             <v-text-field
                 v-model="user.email"
@@ -62,6 +62,7 @@
 
             <v-text-field
                 v-model="user.pass"
+                type="password"
                 label="Contraseña"
                 required
             ></v-text-field>
@@ -123,7 +124,7 @@
                 required
             ></v-text-field>
 
-            <DatePicker label="Birth date" v-on:date="updateBirthDate($event, userToEdit)" />
+            <DatePicker label="Nacimiento" v-on:date="updateBirthDate($event, userToEdit)" />
             
 
             <v-text-field
@@ -134,6 +135,7 @@
 
             <v-text-field
                 v-model="userToEdit.uname"
+                type="password"
                 label="Nombre de usuario"
                 required
             ></v-text-field>
