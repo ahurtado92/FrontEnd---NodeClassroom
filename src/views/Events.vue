@@ -5,7 +5,6 @@
             <template v-slot:default>
                 <thead>
                     <tr>
-                    <th scope="col">#</th>
                     <th scope="col">extId</th>
                     <th scope="col">Group</th>
                     <th scope="col">Subject</th>
@@ -17,8 +16,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="(item, index) in eventos" :key="index">
-                    <th scope="row">{{item._id}}</th>
-                    <td>{{item.extId}}</td>
+                    <th scope="row">{{item.extId}}</th>
                     <td>{{item.subject}}</td>
                     <td>{{item.roomId}}</td>
                     <td>{{item.weekday}}</td>

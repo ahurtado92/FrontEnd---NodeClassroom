@@ -64,7 +64,6 @@
             <template v-slot:default>
                 <thead>
                     <tr>
-                    <th scope="col">#</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Fecha inicial</th>
                     <th scope="col">Fecha final</th>
@@ -73,8 +72,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="(item, index) in periods" :key="index">
-                    <th scope="row">{{item._id}}</th>
-                    <td>{{item.name}}</td>
+                    <th scope="row">{{item.name}}</th>
                     <td>{{new Date(item.initDate).toDateString()}}</td>
                     <td>{{new Date(item.endDate).toDateString()}}</td>
                     <td>

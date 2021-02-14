@@ -69,19 +69,15 @@
             <template v-slot:default>
                 <thead>
                     <tr>
-                    <th scope="col">#</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Descripción</th>
-                    <th scope="col">Fecha</th>
                     <th scope="col">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(item, index) in grupos" :key="index">
-                    <th scope="row">{{item._id}}</th>
-                    <td>{{item.name}}</td>
+                    <th scope="row">{{item.name}}</th>
                     <td>{{item.description}}</td>
-                    <td>{{item.date}}</td>
                     <td>
                         <v-btn
                             color="primary"

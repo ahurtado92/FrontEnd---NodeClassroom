@@ -82,7 +82,6 @@
             <template v-slot:default>
                 <thead>
                     <tr>
-                    <th scope="col">#</th>
                     <th scope="col">ExtId</th>
                     <th scope="col">Periodo</th>
                     <th scope="col">initDate</th>
@@ -92,8 +91,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="(item, index) in intervals" :key="index">
-                    <th scope="row">{{item._id}}</th>
-                    <td>{{item.extId}}</td>
+                    <th scope="row">{{item.extId}}</th>
                     <td>{{item.periodId}}</td>
                     <td>{{item.initDate}}</td>
                     <td>{{item.endDate}}</td>

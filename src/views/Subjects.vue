@@ -73,7 +73,6 @@
             <template v-slot:default>
                 <thead>
                     <tr>
-                    <th scope="col">#</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Descripción</th>
                     <th scope="col">Fecha</th>
@@ -82,8 +81,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="(item, index) in subjects" :key="index">
-                    <th scope="row">{{item._id}}</th>
-                    <td>{{item.name}}</td>
+                    <th scope="row">{{item.name}}</th>
                     <td>{{item.description}}</td>
                     <td>
                         <v-sheet

@@ -70,19 +70,15 @@
             <template v-slot:default>
                 <thead>
                     <tr>
-                    <th scope="col">#</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Descripción</th>
-                    <th scope="col">Fecha</th>
                     <th scope="col">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(item, index) in notas" :key="index">
-                    <th scope="row">{{item._id}}</th>
-                    <td>{{item.nombre}}</td>
+                    <th scope="row">{{item.nombre}}</th>
                     <td>{{item.descripcion}}</td>
-                    <td>{{item.date}}</td>
                     <td>
                         <v-btn
                             color="primary"

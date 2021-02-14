@@ -132,7 +132,6 @@
             <template v-slot:default>
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Descripción</th>
                         <th scope="col">Room</th>
@@ -146,8 +145,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="(item, index) in bookings" :key="index">
-                    <th scope="row">{{item.id}}</th>
-                    <td>{{item.name}}</td>
+                    <th scope="row">{{item.name}}</th>
                     <td>{{item.description}}</td>
                     <td>{{item.roomId}}</td>
                     <td>{{item.initDate}}</td>
