@@ -19,6 +19,7 @@
             ></v-overflow-btn>
 
             <v-overflow-btn
+                v-if="user.role == 'USER'"
                 v-model="user.group"
                 class="my-2"
                 :items="groups"
@@ -237,9 +238,31 @@ export default {
                     token: this.token
                 }
             }
+            var r = []
             this.axios.get('usuarios', config)
             .then((response) => {
-                this.users = response.data;
+                response.data.forEach(evt=>{
+                    const g = this.groups.find( (item) => item.value == evt.group )
+                    let gId = null;
+                    if(g !== undefined){
+                        gId = g.text
+                    }
+                    r.push({
+                        role: evt.role,
+                        activo: evt.activo,
+                        nombre: evt.nombre,
+                        apellidos: evt.apellidos,
+                        phone: evt.phone,
+                        birth: new Date(evt.birth).toLocaleString(),
+                        email: evt.email,
+                        uname: evt.uname,
+                        pass: evt.pass,
+                        group: gId,
+                        avatar: evt.avatar,
+                        date: new Date(evt.date).toLocaleString(),
+                    })
+                });
+                this.users = r;
             })
             .catch((e)=>{
                 console.log('error' + e);
