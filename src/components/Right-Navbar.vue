@@ -9,7 +9,7 @@
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title>{{unm}}</v-list-item-title>
+            <v-list-item-title v-if="unm">{{unm}}</v-list-item-title>
             <v-list-item-subtitle v-if="estaActivo">Logged In</v-list-item-subtitle>
             <v-list-item-subtitle v-else>Log In First!</v-list-item-subtitle>
           </v-list-item-content>
@@ -130,8 +130,8 @@ import { mapActions, mapGetters } from 'vuex';
     },
     created(){
         this.leerToken();
-        //this.uname = this.getUsername();
-        //this.setUname();
+        this.uname = this.getUsername();
+        this.setUname();
         this.createdMenuItems = this.items;
     }
   }

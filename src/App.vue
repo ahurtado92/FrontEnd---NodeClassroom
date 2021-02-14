@@ -49,6 +49,9 @@ export default {
   created(){
     this.leerToken();
   },
+  mounted(){
+    this.$router.push({ name: 'Home' });
+  }
 
 };
 </script>

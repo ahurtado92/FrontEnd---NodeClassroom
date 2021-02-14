@@ -20,8 +20,7 @@ export default new Vuex.Store({
         state.usuarioDB = '';
       } else {
         state.usuarioDB = decode(payload);
-        //router.push({name: 'notas'});
-        router.push({name: '/calendar'});
+        router.push({name: 'Home'});
       }
     }
   },
@@ -50,7 +49,12 @@ export default new Vuex.Store({
     estaActivo: state => !!state.token,
     isTeacher: state => state.usuarioDB.data.role === 'TEACHER',
     isAdmin: state => state.usuarioDB.data.role === 'ADMIN',
-    getUsername: state => {return state.usuarioDB.data.nombre+" "+state.usuarioDB.data.apellidos}
-      
+    getUsername: state => {
+      if(state.usuarioDB){
+        return state.usuarioDB.data.nombre+" "+state.usuarioDB.data.apellidos
+      } else {
+        return ''
+      }
+    }
   }
 })
