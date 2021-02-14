@@ -133,7 +133,9 @@ export default {
     },
     created(){
         this.listPeriods();
-        this.listIntervals();
+        setTimeout(() => {
+            this.listIntervals();
+        }, 300)
     },
     computed: {
         ...mapState(['token'])

@@ -131,7 +131,9 @@ export default {
         };
     },
     created(){
-        this.listInstances();
+        setTimeout(() => {
+            this.listInstances();
+        }, 300)
     },
     computed: {
         ...mapState(['token'])

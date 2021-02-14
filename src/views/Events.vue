@@ -51,12 +51,15 @@ export default {
         };
     },
     created(){
-        this.listarEventos();
+        
         this.getGroups();
         this.getSubjects();
         this.getClassrooms();
         this.getIntervals();
-
+        setTimeout(() => {
+            this.listarEventos();
+        }, 300)
+        
     },
     computed: {
         ...mapState(['token'])
@@ -163,6 +166,9 @@ export default {
             .catch((e)=>{
                 console.log('error' + e);
             })
+            setTimeout(() => {
+                // do other things
+                }, 100)
         },
         listClassrooms(){
             let config = {

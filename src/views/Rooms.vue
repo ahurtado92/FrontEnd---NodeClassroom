@@ -194,7 +194,9 @@ export default {
         };
     },
     created(){
-        this.listRooms();
+        setTimeout(() => {
+            this.listRooms();
+        }, 300)
     },
     computed: {
         ...mapState(['token'])

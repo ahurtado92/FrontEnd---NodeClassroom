@@ -111,7 +111,9 @@ export default {
       DatePicker,
     },
     created(){
-        this.listPeriods();
+        setTimeout(() => {
+            this.listPeriods();
+        }, 300)
     },
     computed: {
         ...mapState(['token'])

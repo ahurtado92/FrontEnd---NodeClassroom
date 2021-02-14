@@ -133,11 +133,13 @@ export default {
       ColorPicker,
     },
     created(){
-        this.getGroups();
-        this.getRooms();
-        this.getBookings();
-        this.getIntervals();
-        this.getPeriods();
+        setTimeout(() => {
+            this.getGroups();
+            this.getRooms();
+            this.getBookings();
+            this.getIntervals();
+            this.getPeriods();
+        }, 300)
     },
     computed: {
         ...mapState(['token']),

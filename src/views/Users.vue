@@ -227,8 +227,10 @@ export default {
       DatePicker,
     },
     created(){
-        this.listUsers();
         this.listGroups();
+        setTimeout(() => {
+            this.listUsers();
+        }, 300)
     },
     computed: {
         ...mapState(['token'])

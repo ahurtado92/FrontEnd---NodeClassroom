@@ -131,7 +131,9 @@ export default {
         };
     },
     created(){
-        this.listMaterials();
+        setTimeout(() => {
+            this.listMaterials();
+        }, 300)
     },
     computed: {
         ...mapState(['token'])

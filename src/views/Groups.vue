@@ -110,7 +110,10 @@ export default {
         };
     },
     created(){
-        this.listarGrupos();
+        setTimeout(() => {
+            this.listarGrupos();
+        }, 300)
+        
     },
     computed: {
         ...mapState(['token'])

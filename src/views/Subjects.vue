@@ -129,7 +129,9 @@ export default {
       ColorPicker,
     },
     created(){
-        this.listarSubjects();
+        setTimeout(() => {
+            this.listarSubjects();
+        }, 300)
     },
     computed: {
         ...mapState(['token'])

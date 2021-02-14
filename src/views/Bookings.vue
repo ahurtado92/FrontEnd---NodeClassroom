@@ -206,7 +206,9 @@ export default {
     created(){
         this.getGroups();
         this.getRooms();
-        this.getBookings();
+        setTimeout(() => {
+            this.getBookings();
+        }, 300)
     },
     computed: {
         ...mapState(['token'])
