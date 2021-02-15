@@ -20,7 +20,7 @@
                 class="my-2"
                 :items="groups"
                 label="Group"
-                item-value="text"
+                item-value="value"
                 required
             ></v-overflow-btn>
 

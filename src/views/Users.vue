@@ -24,7 +24,7 @@
                 class="my-2"
                 :items="groups"
                 label="Group"
-                item-value="text"
+                item-value="value"
                 required
             ></v-overflow-btn>
 
@@ -102,7 +102,7 @@
                 class="my-2"
                 :items="groups"
                 label="Grupo"
-                item-value="text"
+                item-value="value"
                 required
             ></v-overflow-btn>
 
@@ -249,7 +249,7 @@ export default {
             this.axios.get('usuarios', config)
             .then((response) => {
                 response.data.forEach(evt=>{
-                    const g = this.groups.find( (item) => item.text == evt.group )
+                    const g = this.groups.find( (item) => item.value == evt.group )
                     let gId = [];
                     if(g !== undefined){
                         gId = g
