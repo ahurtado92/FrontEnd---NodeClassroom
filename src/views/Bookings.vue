@@ -78,7 +78,7 @@
             ></v-text-field>
 
             <v-overflow-btn
-                v-model="bookingToModify.roomId"
+                v-model="bookingToModify.group"
                 class="my-2"
                 :items="groups"
                 label="Grupo"

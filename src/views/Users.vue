@@ -102,7 +102,7 @@
                 class="my-2"
                 :items="groups"
                 label="Grupo"
-                item-value="value"
+                item-value="text"
                 required
             ></v-overflow-btn>
 
@@ -250,9 +250,9 @@ export default {
             .then((response) => {
                 response.data.forEach(evt=>{
                     const g = this.groups.find( (item) => item.text == evt.group )
-                    let gId = null;
-                    if(g != undefined){
-                        gId = g.text
+                    let gId = [];
+                    if(g !== undefined){
+                        gId = g
                     }
                     r.push({
                         _id: evt._id,
@@ -265,7 +265,7 @@ export default {
                         email: evt.email,
                         uname: evt.uname,
                         pass: evt.pass,
-                        group: gId,
+                        group: gId.text,
                         avatar: evt.avatar,
                         date: new Date(evt.date).toLocaleString(),
                     })
